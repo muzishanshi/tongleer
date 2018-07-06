@@ -2,7 +2,8 @@
 
 # WeiboForTypecho主题
 
-本主题为作者个人原创，使用了Amaze UI中国首个开源 HTML5 跨屏前端框架制作。
+本主题为作者个人原创，使用了Amaze UI中国首个开源 HTML5 跨屏前端框架制作。<br />
+欢迎Emlog用户使用WeiboForEmlog版本的微博模板主题：https://github.com/muzishanshi/tongleer_for_emlog
 
 程序有可能会遇到bug不改版本号直接修改代码的时候，所以扫描以下二维码关注公众号“同乐儿”，可直接与作者二呆产生联系，不再为bug烦恼，随时随地解决问题。
 
