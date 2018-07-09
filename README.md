@@ -39,4 +39,5 @@ http://joke.tongleer.com
  - 灵感来源自<a href="https://blog.20d.win/" target="_blank">薄荷小屋</a>站长的创意，但不支持自适应，所以自己独立实现了一套自适应的微博typecho主题。
 
 # 版本记录
-v1.0.2：第一个版本降世
+V1.0.2：针对WeiboFileForTypecho插件上传视频之后而做的文章列表图片显示的修改
+V1.0.1：第一个版本降世
