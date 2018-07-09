@@ -87,8 +87,11 @@ include('config.php');
 				</div>
 				<?php
 				$thumb=showThumb($this);
+				$youku='player.youku.com';
+				$miaopai='gslb.miaopai.com';
+				$douyin='aweme.snssdk.com';
 				if(count($thumb)<9&&count($thumb)!=0){
-					if(strpos($thumb[0],'http://player.youku.com')===false){
+					if(strpos($thumb[0],$youku)===false&&strpos($thumb[0],$miaopai)===false&&strpos($thumb[0],$douyin)===false){
 						?>
 						<div class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
 						  <img src="<?=$thumb[0];?>"  alt="" width="180" />
@@ -98,9 +101,15 @@ include('config.php');
 				}else if(count($thumb)>=9){
 					?>
 					<ul class="am-avg-sm-3 boxes" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
-						<?php for($i=0;$i<count($thumb);$i++){?>
-							<li class="box box-1"><img src="<?=$thumb[$i];?>"  alt="" /></li>
-						<?php }?>
+						<?php
+						for($i=0;$i<count($thumb);$i++){
+							if(strpos($thumb[$i],$youku)===false&&strpos($thumb[$i],$miaopai)===false&&strpos($thumb[$i],$douyin)===false){
+								?>
+								<li class="box box-1"><img src="<?=$thumb[$i];?>"  alt="" /></li>
+								<?php
+							}
+						}
+						?>
 					</ul>
 					<?php
 				}
