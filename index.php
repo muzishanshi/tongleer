@@ -96,11 +96,13 @@ include('config.php');
 				<?php
 				$thumb=showThumb($this);
 				if(count($thumb)<9&&count($thumb)!=0){
-					?>
-					<div class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
-					  <img src="<?=$thumb[0];?>"  alt="" width="180" />
-					</div>
-					<?php
+					if(strpos($thumb[0],'http://player.youku.com')===false){
+						?>
+						<div class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+						  <img src="<?=$thumb[0];?>"  alt="" width="180" />
+						</div>
+						<?php
+					}
 				}else if(count($thumb)>=9){
 					?>
 					<ul class="am-avg-sm-3 boxes" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
