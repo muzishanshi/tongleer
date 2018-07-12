@@ -88,7 +88,7 @@
 	  <a href="<?php $this->options->adminUrl(); ?>register.php">新用户注册</a>
 	  <fieldset class="am-form-set">
 	  <input type="text" name="name" class="am-modal-prompt-input" placeholder="用户名">
-	  <input type="text" name="password" class="am-modal-prompt-input" placeholder="密码">
+	  <input type="password" name="password" class="am-modal-prompt-input" placeholder="密码">
 	  <input type="hidden" name="referer" value="<?php echo htmlspecialchars($this->request->get('referer')); ?>" />
 	  <input type="checkbox" name="remember" class="checkbox" value="1" id="remember" />
 	  </fieldset>
