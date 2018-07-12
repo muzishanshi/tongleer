@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /* 后台设置 */
 function themeConfig($form) {
 	//版本检查
-	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=3');
+	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=4');
 	echo '<p style="font-size:14px;">
         <span style="display: block; margin-bottom: 10px; margin-top: 10px; font-size: 16px;">感谢使用 WeiboForTypecho 主题<br />版本检查：'.$version.'</span>';
     echo '</p>';
