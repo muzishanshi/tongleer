@@ -105,6 +105,10 @@ include('config.php');
 						  <img src="<?=$thumb[0];?>"  alt="" width="180" />
 						</div>
 						<?php
+					}else if(strpos($thumb[0],'player.youku.com')){
+						?>
+						<iframe height="400" width="100%" src="<?=$thumb[0];?>" frameborder="0" "allowfullscreen"></iframe>
+						<?php
 					}
 				}else if(count($thumb)>=9){
 					?>
