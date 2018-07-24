@@ -40,7 +40,7 @@ include('config.php');
 		.cat-nav {width: 100%;}
 	}
 </style>
-<div class="am-g am-g-fixed">
+<div class="am-g am-g-fixed" style="word-wrap:break-word;">
   <div class="am-u-md-9 am-u-md-push-3">
 	<div class="cat-nav am-round" data-am-sticky="{top:60}">
 		<div data-am-widget="tabs">

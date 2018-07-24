@@ -11,7 +11,7 @@
 }
 </style>
 <!-- content section -->
-<section class="page-main">
+<section class="page-main" style="word-wrap:break-word;">
 	<ol class="am-breadcrumb">
 		<li><a href="<?=$this->options ->siteUrl();?>" class="am-icon-home">首页</a></li>
 		<li class="am-active"><?php $this->title(); ?></li>

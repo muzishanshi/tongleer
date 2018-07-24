@@ -48,9 +48,9 @@
 			}
 		}
 		$i=($page_now-1)*$page_rec<0?0:($page_now-1)*$page_rec;
-		$query= $this->db->select()->from('table.contents')->order('modified',Typecho_Db::SORT_DESC)->offset($i)->limit($page_rec);
+		$query= $this->db->select()->from('table.contents')->order('modified',Typecho_Db::SORT_DESC);//->offset($i)->limit($page_rec)
 		$result = $this->db->fetchAll($query);
-		$i=1;
+		$temi=1;
 		?>
 		<?php
 		foreach($result as $value){
@@ -70,7 +70,7 @@
 				</div>
 				</li>
 				<?php
-				$i++;
+				$temi++;
 			}
 		}
 		?>
