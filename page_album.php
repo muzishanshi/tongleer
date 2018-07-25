@@ -48,7 +48,7 @@
 			}
 		}
 		$i=($page_now-1)*$page_rec<0?0:($page_now-1)*$page_rec;
-		$query= $this->db->select()->from('table.contents')->order('modified',Typecho_Db::SORT_DESC);//->offset($i)->limit($page_rec)
+		$query= $this->db->select()->from('table.contents')->order('created',Typecho_Db::SORT_DESC);//->offset($i)->limit($page_rec)
 		$result = $this->db->fetchAll($query);
 		$temi=1;
 		?>
@@ -65,7 +65,9 @@
 				<li>
 				<div class="am-gallery-item" style="width:100%;height:0px;padding-bottom:100%;position:relative;">
 					<a href="<?=$matches[1][$j];?>">
-					  <img src="<?=$matches[1][$j];?>" style="width:100%;height:100%;position:absolute;" />
+					  <img src="<?=$matches[1][$j];?>" style="width:100%;height:100%;position:absolute;"  alt="<?=$value["title"];?>" />
+					  <h3 class="am-gallery-title"><?=$value["title"];?></h3>
+					  <div class="am-gallery-desc"><?=date('Y-m-d H:i:s',$value["created"]);?></div>
 					</a>
 				</div>
 				</li>
