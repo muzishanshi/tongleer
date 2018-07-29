@@ -3,18 +3,28 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /* 后台设置 */
 function themeConfig($form) {
 	//版本检查
-	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=5');
+	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=6');
 	echo '<p style="font-size:14px;">
         <span style="display: block; margin-bottom: 10px; margin-top: 10px; font-size: 16px;">感谢使用 WeiboForTypecho 主题<br />版本检查：'.$version.'</span>';
     echo '</p>';
 	
-	$db= Typecho_Db::get();
-	$userQuery= $db->select()->from('table.users');
-	$userData = $db->fetchAll($userQuery);
-	$config_totalUser=count($userData);
-	if($config_totalUser){
-		updateThemeConfig("config_totalUser",$config_totalUser,'int');
-	}
+	$config_is_pjax = new Typecho_Widget_Helper_Form_Element_Radio('config_is_pjax', array(
+		'y'=>_t('启用'),
+		'n'=>_t('禁用')
+	), 'n', _t('PJAX无刷新加载'),_t('开启后网页中非新窗口打开非登录非评论的跳转将变为无刷新跳转，适合与播放器共同使用，但目前还不完善，可选择开启。'));
+	$form->addInput($config_is_pjax->addRule('enum', _t(''), array('y', 'n')));
+	
+	$config_is_play = new Typecho_Widget_Helper_Form_Element_Radio('config_is_play', array(
+		'y'=>_t('启用'),
+		'n'=>_t('禁用')
+	), 'n', _t('音乐播放器'), _t('开启后网页左下角会出现音乐播放器，适合和PJAX无刷新加载共同使用，默认不自动播放，但是目前只能手动修改主题目录下footer.php文件进行修改歌单，同样可以选择开启。'));
+	$form->addInput($config_is_play->addRule('enum', _t(''), array('y', 'n')));
+	
+	$config_is_ajax_page = new Typecho_Widget_Helper_Form_Element_Radio('config_is_ajax_page', array(
+		'y'=>_t('启用'),
+		'n'=>_t('禁用')
+	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启。'));
+	$form->addInput($config_is_ajax_page->addRule('enum', _t(''), array('y', 'n')));
 	
 	$config_nav = new Typecho_Widget_Helper_Form_Element_Text('config_nav', array('value'), '<li><a href=http://baidu.com target=_blank></a></li><li><a href=http://qq.com target=_blank></a></li>', _t('顶部导航链接'), _t("在这里填入需要添加的顶部导航链接代码，如：&lt;li&gt;&lt;a href=http://baidu.com target=_blank&gt;百度&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=http://qq.com target=_blank&gt;腾讯&lt;/a&gt;&lt;/li&gt;"));
     $form->addInput($config_nav);
@@ -162,9 +172,62 @@ function getHotCommentsArticle($limit = 10){
             $val = Typecho_Widget::widget('Widget_Abstract_Contents')->push($val);
             $post_title = htmlspecialchars($val['title']);
             $permalink = $val['permalink'];
-            echo '<li class="am-serif"><a href="'.$permalink.'" title="'.$post_title.'" target="_blank">'.$post_title.'</a></li>';        
+            echo '<li class="am-serif"><a href="'.$permalink.'" title="'.$post_title.'">'.$post_title.'</a></li>';        
         }
     }
+}
+/**
+ * 截取编码为utf8的字符串
+ *
+ * @param string $strings 预处理字符串
+ * @param int $start 开始处 eg:0
+ * @param int $length 截取长度
+ */
+function subString($strings, $start, $length) {
+	if (function_exists('mb_substr') && function_exists('mb_strlen')) {
+		$sub_str = mb_substr($strings, $start, $length, 'utf8');
+		return mb_strlen($sub_str, 'utf8') < mb_strlen($strings, 'utf8') ? $sub_str . '...' : $sub_str;
+	}
+	$str = substr($strings, $start, $length);
+	$char = 0;
+	for ($i = 0; $i < strlen($str); $i++) {
+		if (ord($str[$i]) >= 128)
+			$char++;
+	}
+	$str2 = substr($strings, $start, $length + 1);
+	$str3 = substr($strings, $start, $length + 2);
+	if ($char % 3 == 1) {
+		if ($length <= strlen($strings)) {
+			$str3 = $str3 .= '...';
+		}
+		return $str3;
+	}
+	if ($char % 3 == 2) {
+		if ($length <= strlen($strings)) {
+			$str2 = $str2 .= '...';
+		}
+		return $str2;
+	}
+	if ($char % 3 == 0) {
+		if ($length <= strlen($strings)) {
+			$str = $str .= '...';
+		}
+		return $str;
+	}
+}
+/*获得当前页面url*/
+function curPageURL(){
+	$pageURL = 'http';
+	if ($_SERVER["HTTPS"] == "on"){
+		$pageURL .= "s";
+	}
+	$pageURL .= "://";
+	if ($_SERVER["SERVER_PORT"] != "80"){
+		$pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+	}else{
+		$pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+	}
+	return $pageURL;
 }
 /**
  * 解析内容以实现附件加速

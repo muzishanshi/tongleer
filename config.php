@@ -14,5 +14,4 @@ $config_album_name='相册';
 $config_album_link='javascript:;';
 $config_other_1_name='^_^';
 $config_other_1_link='javascript:;';
-$config_totalUser=3;
 ?>

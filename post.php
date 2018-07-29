@@ -45,13 +45,13 @@ include('config.php');
 	<div class="cat-nav am-round" data-am-sticky="{top:60}">
 		<div data-am-widget="tabs">
 		  <ul class="am-tabs-nav">
-			  <li><button type="button" class="am-btn am-radius" onClick="location.href='<?=$this->options ->siteUrl();?>';">全部</button></li>
+			  <li><a class="am-btn am-radius" href="<?=$this->options ->siteUrl();?>"><small>全部</small></a></li>
 			  <li class="am-dropdown" data-am-dropdown>
-				<button type="button" class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle>更多<span class="am-icon-caret-down"></span></button>
+				<a class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle><small>更多</small><span class="am-icon-caret-down"></span></a>
 				<ul class="am-dropdown-content">
 					<?php $this->widget('Widget_Metas_Category_List')->to($cats); ?>
 					<?php while ($cats->next()): ?>
-						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><?php $cats->name()?></a></li>
+						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><small><?php $cats->name()?></small></a></li>
 					<?php endwhile; ?>
 				</ul>
 			  </li>
@@ -63,7 +63,7 @@ include('config.php');
 		  </ul>
 		</div>
 	</div>
-    <section>
+    <section id="content">
 		<ol class="am-breadcrumb" style="background-color:#fff;">
 		  <li><a href="<?=$this->options ->siteUrl();?>" class="am-icon-home">首页</a></li>
 		  <li><?php $this->category(','); ?></li>
@@ -73,38 +73,21 @@ include('config.php');
 			<h6><?php $this->title(); ?></h6>
 			<div>
 				<small>
-					<a href="<?php $this->author->permalink(); ?>" rel="author"><?php $this->author(); ?></a> 发布 | <?php $this->date('Y-m-d'); ?> | <?php $this->category(','); ?>| 评论数：<?php $this->commentsNum('0', '1', '%d'); ?> | 标签：<?php $this->tags(',', true, '<a>没有标签</a>'); ?>
+					<a href="<?php $this->author->permalink(); ?>" rel="author"><?php $this->author(); ?></a> 发布 | <?php $this->date('Y-m-d'); ?> | <?php $this->category(','); ?> | 阅读数：<?php get_post_view($this); ?> | 评论数：<?php $this->commentsNum('0', '1', '%d'); ?> | 标签：<?php $this->tags(',', true, '<a>没有标签</a>'); ?>
 				</small>
 			</div>
 			<p>
 				<?php parseContent($this); ?>
 			</p>
 			<p>
-				<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a></div>
-				<script>
-					window._bd_share_config={
-						"common":{
-							"bdSnsKey":{},
-							"bdText":"<?php $this->title() ?>",
-							"bdMini":"2",
-							"bdMiniList":["qzone","tsina","weixin","tqq","sqq","fbook","twi","copy"],
-							"bdPic":"<?php if(showThumb($this)){echo showThumb($this)[0];};?>",
-							"bdStyle":"0",
-							"bdSize":"16"
-						},
-						"share":{},
-						"image":{
-							"viewList":["qzone","tqq","weixin","sqq","tsina"],
-							"viewText":"分享到：",
-							"viewSize":"16"
-						},
-						"selectShare":{
-							"bdContainerClass":null,
-							"bdSelectMiniList":["qzone","tqq","weixin","sqq","tsina"]
-						}
-					};
-					with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-				</script>
+				<?php
+				preg_match_all( "/<img.*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/", $this->content, $sharematche );
+				$sharecontent=subString(str_replace('', '', strip_tags($this->content)),0,140);
+				?>
+				<small>分享至:</small>
+				<a href="http://service.weibo.com/share/share.php?url=<?=curPageURL();?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" ><img src="<?php $this->options->themeUrl('assets/images/icon_sina.png'); ?>" alt="" /></a>
+				<a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=<?=curPageURL();?>&title=<?php echo $this->title(); ?>&site=<?=$this->options ->siteUrl();?>&desc=这是一篇神奇的文章&summary=<?php echo $sharecontent; ?>&pics=<?php if(count($sharematche[1])>0){echo $sharematche[1][0];}?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" ><img src="<?php $this->options->themeUrl('assets/images/icon_qzone.png'); ?>" alt="" /></a>
+				<a href="http://connect.qq.com/widget/shareqq/index.html?url=<?=curPageURL();?>&title=<?php echo $this->title(); ?>&site=<?=$this->options ->siteUrl();?>&desc=这是一篇神奇的文章&summary=<?php echo $sharecontent; ?>&pics=<?php if(count($sharematche[1])>0){echo $sharematche[1][0];}?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" ><img src="<?php $this->options->themeUrl('assets/images/icon_qq.png'); ?>" alt="" /></a>
 			</p>
 		</div>
 		<?php $this->need('comments.php'); ?>

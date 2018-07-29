@@ -39,6 +39,14 @@ http://joke.tongleer.com
  - 灵感来源自<a href="https://blog.20d.win/" target="_blank">薄荷小屋</a>站长的创意，但不支持自适应，所以自己独立实现了一套自适应的微博typecho主题。
 
 # 版本记录
+v1.0.6：<br />
+	新增PJAX无刷新加载（未完善）<br />
+	新增音乐播放器（修改歌单只能手动修改文件）<br />
+	新增AJAX分页加载<br />
+	增加阅读数和分享按钮<br />
+	获得用户数的代码位置改变<br />
+	本次更新涉及到的文件有：functions.php，footer.php，index.php，archive.php，post.php，header.php，sidebar.php，page_album.php(相册略作修改)，config.php（仅删除了一个商量，可以忽略。），及assets文件夹的静态文件（不做详细介绍，直接覆盖即可。）
+
 v1.0.5：优化相册页面时间归档及分页方式显示：修改了page_album.php文件。<br />
 V1.0.4：修改了第一次评论失败的情况<br />
 V1.0.3：针对WeiboFileForTypecho插件上传视频之后而做的文章列表图片显示的修改<br />

@@ -125,8 +125,9 @@
 <div class="banner-nav">
 	<div data-am-widget="tabs">
       <ul class="am-tabs-nav">
-          <li><button type="button" class="am-btn am-radius" onClick="location.href='<?=$this->options ->siteUrl();?>';">主页</button></li>
-		  <li><button type="button" class="am-btn am-radius" onClick="location.href='<?php if($config_album_link){echo $config_album_link;}else{echo $this->options ->siteUrl();}?>';"><?php if($config_album_name){echo $config_album_name;}else{echo '相册';}?></button></li>
+          <li><a class="am-btn am-radius" href="<?=$this->options ->siteUrl();?>"><small>主页</small></a></li>
+		  <li><a class="am-btn am-radius" target="_blank" href="<?php if($config_album_link){echo $config_album_link;}else{echo $this->options ->siteUrl();}?>"><small><?php if($config_album_name){echo $config_album_name;}else{echo '相册';}?></small></a></li>
+		  <li><a class="am-btn am-radius" target="_blank" href="<?=$this->options ->siteUrl();?>/wemedia_goods.html"><small>商城</small></a></li>
       </ul>
 	</div>
 </div>

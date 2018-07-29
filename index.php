@@ -4,7 +4,7 @@
  * 
  * @package tongleer
  * @author 二呆
- * @version 1.0.5
+ * @version 1.0.6
  * @link http://www.tongleer.com/
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
@@ -53,13 +53,13 @@ include('config.php');
 	<div class="cat-nav am-round" data-am-sticky="{top:60}">
 		<div data-am-widget="tabs">
 		  <ul class="am-tabs-nav">
-			  <li><button type="button" class="am-btn am-radius" onClick="location.href='<?=$this->options ->siteUrl();?>';">全部</button></li>
+			  <li><a class="am-btn am-radius" href="<?=$this->options ->siteUrl();?>"><small>全部</small></a></li>
 			  <li class="am-dropdown" data-am-dropdown>
-				<button type="button" class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle>更多<span class="am-icon-caret-down"></span></button>
+				<a class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle><small>更多</small><span class="am-icon-caret-down"></span></a>
 				<ul class="am-dropdown-content">
 					<?php $this->widget('Widget_Metas_Category_List')->to($cats); ?>
 					<?php while ($cats->next()): ?>
-						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><?php $cats->name()?></a></li>
+						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><small><?php $cats->name()?></small></a></li>
 					<?php endwhile; ?>
 				</ul>
 			  </li>
@@ -71,13 +71,13 @@ include('config.php');
 		  </ul>
 		</div>
 	</div>
-    <section class="am-u-md-12">
+    <section id="content" class="am-u-md-12">
 	  <?php if ($this->have()): ?>
 		<ul class="am-list">
-		  <?php $k=0;while($this->next()): ?>
-		  <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left" style="background-color:#fff;margin-bottom:10px;">
+		  <?php while($this->next()): ?>
+		  <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left tleajaxpage" style="background-color:#fff;margin-bottom:10px;">
 			<div <?php if(isMobile()){?>class="am-u-sm-3 am-list-thumb"<?php }else{?>class="am-u-sm-2 am-list-thumb"<?php }?>>
-			  <a href="">
+			  <a href="<?php $this->author->permalink(); ?>" rel="author">
 				<img class="am-circle" src="<?=$config_headImgUrl;?>"/>
 			  </a>
 			</div>
@@ -127,48 +127,38 @@ include('config.php');
 				}
 				?>
 			</div>
-			<ul class="am-avg-sm-1" style="text-align:center;">
-			  <!--<li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="">阅读 <?php get_post_view($this); ?></a></li>-->
-			  <li style="border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>#comments">评论 <?php $this->commentsNum('0', '1', '%d'); ?></a></li>
-			  <!--
-			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text bdsharebuttonbox" data-cmd="more" href="">分享 <span class="am-icon-share-square-o"></span></a></li>
-			  <input type="hidden" class="sharetitle" id="sharetitle<?=$k;?>" value="<?php $this->title() ?>" />
-			  <input type="hidden" class="sharedesc" id="sharedesc<?=$k;?>" value="<?php $this->excerpt(140, '...'); ?>" />
-			  <input type="hidden" class="shareurl" id="shareurl<?=$k;?>" value="<?php $this->permalink(); ?>" />
-			  -->
-			  <script>
-					/*
-					window._bd_share_config={
-						"common":{
-							"bdSnsKey":{},
-							"bdText":$('#'+$('.sharetitle').attr('id')).val(),
-							"bdMini":"2",
-							"bdMiniList":["qzone","tsina","weixin","tqq","sqq","fbook","twi","copy"],
-							"bdPic":"",
-							"bdDesc" : $('#'+$('.sharedesc').attr('id')).val(),
-							"bdUrl" : $('#'+$('.shareurl').attr('id')).val(),
-							"bdStyle":"0",
-							"bdSize":"16"
-						},
-						"share":{},
-						"image":{
-							"viewList":["qzone","tqq","weixin","sqq","tsina"],
-							"viewText":"分享到：",
-							"viewSize":"16"
-						},
-						"selectShare":{
-							"bdContainerClass":null,
-							"bdSelectMiniList":["qzone","tqq","weixin","sqq","tsina"]
-						}
-					};
-					with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-					*/
-			  </script>
+			<ul class="am-avg-sm-3" style="text-align:center;">
+			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="">阅读 <?php get_post_view($this); ?></a></li>
+			  <li style="border-top:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>#comments">评论 <?php $this->commentsNum('0', '1', '%d'); ?></a></li>
+			  <li style="border-right:1px solid #ddd;"><a class="am-list-item-text" href="http://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" >分享 <span class="am-icon-share-square-o"></span></a></li>
 			</ul>
 		  </li>
-		  <?php $k++;endwhile; ?>
+		  <?php endwhile; ?>
 		</ul>
-		<?php $this->pageNav('«', '»', 0, '...', array('wrapTag' => 'ul', 'wrapClass' => 'am-pagination am-pagination-right', 'itemTag' => 'li', 'textTag' => 'a', 'currentClass' => 'am-active', 'prevClass' => '', 'nextClass' => '')); ?>
+		<div class="am-pagination blog-pagination">
+			<li class="am-pagination-next"><?php $this->pageLink('上一页'); ?></li>
+			<li class="am-pagination-prev"><?php $this->pageLink('下一页','next'); ?></li>
+		</div>
+		<?php if($this->options->config_is_ajax_page=='y'){?>
+		<!--ajax分页加载-->
+		<script src="<?php $this->options->themeUrl('assets/js/jquery.ias.min.js'); ?>" type="text/javascript"></script>
+		<script>
+		var ias = $.ias({
+			container: "#content", /*包含所有文章的元素*/
+			item: ".tleajaxpage", /*文章元素*/
+			pagination: ".am-pagination", /*分页元素*/
+			next: ".am-pagination a.next", /*下一页元素*/
+		});
+		ias.extension(new IASTriggerExtension({
+			text: '<div class="cat-nav am-round"><small>猛点几次查看更多内容</small></div>', /*此选项为需要点击时的文字*/
+			offset: 2, /*设置此项后，到 offset+1 页之后需要手动点击才能加载，取消此项则一直为无限加载*/
+		}));
+		ias.extension(new IASSpinnerExtension());
+		ias.extension(new IASNoneLeftExtension({
+			text: '<div class="cat-nav am-round"><small>已经是全部内容了</small></div>', /*加载完成时的提示*/
+		}));
+		</script>
+		<?php }?>
 	  <?php else: ?>
 		<style>
 		.page-main{

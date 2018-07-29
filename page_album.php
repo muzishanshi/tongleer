@@ -112,7 +112,7 @@
 			$output .= "
 				<li class=\"albumitem\">
 					<div class=\"am-gallery-item\" style=\"width:100%;height:0px;padding-bottom:100%;position:relative;\">
-						<a href=\"".$value['src']."\">
+						<a href=\"javascript:;\">
 							<img src=\"".$value['src']."\" style=\"width:100%;height:100%;position:absolute;\"  alt=\"".$value["title"]."（".date('m日',$value["created"])."）"."\" />
 							<h3 class=\"am-gallery-title\">".$value["title"]."（".date('m日',$value["created"])."）"."</h3>
 						</a>
@@ -137,7 +137,7 @@
 		<li class="am-pagination-prev"><a href="?page_now=<?=$before_page;?>">&laquo; 上一页</a></li>
 	  <?php }?>
 	  <?php if($page_now<$page){?>
-		<li class="am-pagination-next"><a id="nextpage" href="?page_now=<?=$after_page;?>">下一页 &raquo;</a></li>
+		<li class="am-pagination-next"><a id="tlenextpage" href="?page_now=<?=$after_page;?>">下一页 &raquo;</a></li>
 	  <?php }?>
 	  <?php if($page_now!=$page){?>
 		<li class="am-pagination-next"><a href="?page_now=<?=$page;?>">尾页</a></li>
@@ -149,7 +149,7 @@
 		container: ".page-main", /*包含所有文章的元素*/
 		item: ".albumitem", /*文章元素*/
 		pagination: ".am-pagination", /*分页元素*/
-		next: ".am-pagination a#nextpage", /*下一页元素*/
+		next: ".am-pagination a#tlenextpage", /*下一页元素*/
 	});
 	ias.extension(new IASTriggerExtension({
 		text: '<div class="cat-nav am-round"><small>猛点几次查看更多内容</small></div>', /*此选项为需要点击时的文字*/
