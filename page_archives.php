@@ -66,7 +66,7 @@
 			";
         }
 		$output .= "
-			<li>时间：<time>".date('m日',$archives->created)."</time>&nbsp;&nbsp;标题：<a href=\"".$archives->permalink."\">".$archives->title."</a>&nbsp;&nbsp;评论数：(".$archives->commentsNum.")</li>
+			<li>时间：<time>".date('d日',$archives->created)."</time>&nbsp;&nbsp;标题：<a href=\"".$archives->permalink."\">".$archives->title."</a>&nbsp;&nbsp;评论数：(".$archives->commentsNum.")</li>
 		";
 		$i++;
 		endwhile;
