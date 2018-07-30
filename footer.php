@@ -3,6 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
 <!-- footer -->
 <footer class="am-footer am-footer-default">
+	<a style="position:fixed;right: 50px;bottom: 50px;" href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up" id="amz-go-top"></a>
 	<div class="am-footer-miscs ">
 		<?=$this->options->config_foot_info();?>
     </div>

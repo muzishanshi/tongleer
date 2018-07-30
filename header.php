@@ -103,8 +103,17 @@
 <!--end navigation panel -->
 <section class="banner-head" style="background-image:url('<?php if($config_headBg){echo $config_headBg;}else{echo 'http://api.tongleer.com/picturebed/img/bg.jpg';}?>')">
 	<img class="am-circle" src="<?php if($config_headImgUrl){echo $config_headImgUrl;}else{echo 'https://cambrian-images.cdn.bcebos.com/39ceafd81d6813a014e747db4aa6f0eb_1524963877208.jpeg';}?>" width="100" height="100"/><br />
-	<span><?php if($config_nickname){echo $config_nickname;}else{echo '快乐贰呆';}?></span><br />
-	<small><?php $this->options->description(); ?></small>
+	<span>
+		<?php if($config_nickname){echo $config_nickname;}else{echo '快乐贰呆';}?>
+		<?php if($this->options->config_sex=='boy'){echo "♂";}else{echo "♀";};?>
+	</span><br />
+	<?php
+	$userQuery= $this->db->select()->from('table.users');
+	$userData = $this->db->fetchAll($userQuery);
+	?>
+	<small>关注 <?=$this->options->config_follownum()!=""?$this->options->follownum:0; ?>  |  粉丝 <?php echo count($userData);?></small><br />
+	<small><?php $this->options->description(); ?></small><br />
+	<small>微博认证：<?php if($this->options->config_weiboname){echo $this->options->config_weiboname;}else{echo '同乐儿';}?></small>
 	<div>
 		<div class="am-dropdown" data-am-dropdown>
 		  <button class="am-btn am-btn-warning am-radius am-btn-xs am-dropdown-toggle">关注</button>

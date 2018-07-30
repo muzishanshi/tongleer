@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /* 后台设置 */
 function themeConfig($form) {
 	//版本检查
-	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=6');
+	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=7');
 	echo '<p style="font-size:14px;">
         <span style="display: block; margin-bottom: 10px; margin-top: 10px; font-size: 16px;">感谢使用 WeiboForTypecho 主题<br />版本检查：'.$version.'</span>';
     echo '</p>';
@@ -64,6 +64,15 @@ function themeConfig($form) {
 		updateThemeConfig("config_nickname",$config_nickname);
 	}
 	
+	$config_sex = new Typecho_Widget_Helper_Form_Element_Radio('config_sex', array(
+		'boy'=>_t('男'),
+		'girl'=>_t('女')
+	), 'girl', _t('性别'), _t('显示在昵称右侧'));
+	$form->addInput($config_sex->addRule('enum', _t(''), array('boy', 'girl')));
+	
+	$config_follownum = new Typecho_Widget_Helper_Form_Element_Text('config_follownum', array('value'), '', _t('关注数'), _t('显示在昵称下面'));
+    $form->addInput($config_follownum);
+	
 	$config_follow_qrcode = new Typecho_Widget_Helper_Form_Element_Text('config_follow_qrcode', array('value'), 'http://me.tongleer.com/content/uploadfile/201706/008b1497454448.png', _t('关注二维码'), _t('在这里填入头部资料卡关注的二维码图片地址，如：http://me.tongleer.com/content/uploadfile/201706/008b1497454448.png'));
     $form->addInput($config_follow_qrcode);
 	
@@ -121,6 +130,9 @@ function themeConfig($form) {
 	$config_detail = new Typecho_Widget_Helper_Form_Element_Text('config_detail', array('value'), '工作联系 ：diamond@tongleer.com 微信：2293338477', _t('简介'), _t('在这里填入简介'));
     $form->addInput($config_detail);
 	
+	$config_about = new Typecho_Widget_Helper_Form_Element_Text('config_about', array('value'), '', _t('更多资料'), _t('在这里填入以更多资料为模板的新建页面的链接'));
+    $form->addInput($config_about);
+	
 	$config_foot_info = new Typecho_Widget_Helper_Form_Element_Textarea('config_foot_info', array('value'), '<p>友情链接：<a href="" target="_blank" rel="nofollow">同乐儿</a> <a href="" target="_blank" rel="nofollow">同乐儿</a></p>', _t('底部信息'), _t('在这里填入底部信息'));
     $form->addInput($config_foot_info);
 	
@@ -168,12 +180,30 @@ function getHotCommentsArticle($limit = 10){
         ->order('commentsNum', Typecho_Db::SORT_DESC)
     );
     if($result){
+		echo '
+			<div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+				<div class="am-list-news-bd">
+					<ul class="am-list">
+		';
         foreach($result as $val){            
             $val = Typecho_Widget::widget('Widget_Abstract_Contents')->push($val);
             $post_title = htmlspecialchars($val['title']);
             $permalink = $val['permalink'];
-            echo '<li class="am-serif"><a href="'.$permalink.'" title="'.$post_title.'">'.$post_title.'</a></li>';        
+			$match_str = "/((http)+.*?((.gif)|(.jpg)|(.bmp)|(.png)|(.GIF)|(.JPG)|(.PNG)|(.BMP)))/";
+			preg_match_all ($match_str,$val['text'],$matches,PREG_PATTERN_ORDER);
+			$img="";
+			$width=12;
+			if(count($matches[1])>0){
+				$width=8;
+				$img='<div class="am-u-sm-4 am-list-thumb"><img src="'.$matches[1][0].'" /></div>';
+			}
+            echo '<li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">'.$img.'<a href="'.$permalink.'" title="'.$post_title.'"><div class=" am-u-sm-'.$width.' am-list-main"><small style="word-wrap:break-word;">'.$post_title.'</small></div>'.'</a></li>';        
         }
+		echo '
+				</ul>
+			</div>
+		</div>
+		';
     }
 }
 /**

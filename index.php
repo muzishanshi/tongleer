@@ -4,7 +4,7 @@
  * 
  * @package tongleer
  * @author 二呆
- * @version 1.0.6
+ * @version 1.0.7
  * @link http://www.tongleer.com/
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
