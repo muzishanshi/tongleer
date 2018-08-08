@@ -7,7 +7,9 @@
 
 程序有可能会遇到bug不改版本号直接修改代码的时候，所以扫描以下二维码关注公众号“同乐儿”，可直接与作者二呆产生联系，不再为bug烦恼，随时随地解决问题。
 
-<img src="http://me.tongleer.com/content/uploadfile/201706/008b1497454448.png">
+<img src="https://ws3.sinaimg.cn/large/ecabade5ly1fu24j5r5m3j211x0lb7qe.jpg" width="100%">
+<img src="https://ws3.sinaimg.cn/large/ecabade5ly1fu24j705iij211x0lbkda.jpg" width="100%">
+<img src="https://ws3.sinaimg.cn/large/ecabade5ly1fu24j89ozhj211x0l7qs6.jpg" width="100%">
 
 # 主题特点
  - 模拟微博主页，适合自媒体站长使用。
