@@ -111,7 +111,7 @@
 	$userQuery= $this->db->select()->from('table.users');
 	$userData = $this->db->fetchAll($userQuery);
 	?>
-	<small>关注 <?=$this->options->config_follownum()!=""?$this->options->follownum:0; ?>  |  粉丝 <?php echo count($userData);?></small><br />
+	<small>关注 <?=$this->options->config_follownum(); ?>  |  粉丝 <?php echo count($userData);?></small><br />
 	<small><?php $this->options->description(); ?></small><br />
 	<small>微博认证：<?php if($this->options->config_weiboname){echo $this->options->config_weiboname;}else{echo '同乐儿';}?></small>
 	<div>
