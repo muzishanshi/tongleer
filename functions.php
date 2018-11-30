@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /* 后台设置 */
 function themeConfig($form) {
 	//版本检查
-	$version=file_get_contents('http://api.tongleer.com/interface/tongleer.php?action=update&version=7');
+	$version=file_get_contents('https://tongleer.com/api/interface/tongleer.php?action=update&version=7');
 	echo '<p style="font-size:14px;">
         <span style="display: block; margin-bottom: 10px; margin-top: 10px; font-size: 16px;">感谢使用 WeiboForTypecho 主题<br />版本检查：'.$version.'</span>';
     echo '</p>';
@@ -26,14 +26,14 @@ function themeConfig($form) {
 	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启。'));
 	$form->addInput($config_is_ajax_page->addRule('enum', _t(''), array('y', 'n')));
 	
-	$config_nav = new Typecho_Widget_Helper_Form_Element_Text('config_nav', array('value'), '<li><a href=http://baidu.com target=_blank></a></li><li><a href=http://qq.com target=_blank></a></li>', _t('顶部导航链接'), _t("在这里填入需要添加的顶部导航链接代码，如：&lt;li&gt;&lt;a href=http://baidu.com target=_blank&gt;百度&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=http://qq.com target=_blank&gt;腾讯&lt;/a&gt;&lt;/li&gt;"));
+	$config_nav = new Typecho_Widget_Helper_Form_Element_Text('config_nav', array('value'), '<li><a href=https://baidu.com target=_blank></a></li><li><a href=https://www.qq.com target=_blank></a></li>', _t('顶部导航链接'), _t("在这里填入需要添加的顶部导航链接代码，如：&lt;li&gt;&lt;a href=https://baidu.com target=_blank&gt;百度&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=httpw://www.qq.com target=_blank&gt;腾讯&lt;/a&gt;&lt;/li&gt;"));
     $form->addInput($config_nav);
 	$config_nav = @isset($_POST['config_nav']) ? addslashes(trim($_POST['config_nav'])) : '';
 	if($config_nav){
 		updateThemeConfig("config_nav",$config_nav);
 	}
 	
-	$config_favicon = new Typecho_Widget_Helper_Form_Element_Text('config_favicon', array('value'), 'http://www.tongleer.com/wp-content/themes/D8/img/favicon.png', _t('自定义favicon图标'), _t('在这里填入自定义favicon图标url'));
+	$config_favicon = new Typecho_Widget_Helper_Form_Element_Text('config_favicon', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg', _t('自定义favicon图标'), _t('在这里填入自定义favicon图标url'));
     $form->addInput($config_favicon);
 	$config_favicon = @isset($_POST['config_favicon']) ? addslashes(trim($_POST['config_favicon'])) : '';
 	if($config_favicon){
@@ -43,7 +43,7 @@ function themeConfig($form) {
 	$config_bg = new Typecho_Widget_Helper_Form_Element_Text('config_bg', array('value'), '', _t('网页背景图片'), _t('在这里填入网页背景图片url'));
     $form->addInput($config_bg);
 	
-	$config_headBg = new Typecho_Widget_Helper_Form_Element_Text('config_headBg', array('value'), 'http://api.tongleer.com/picturebed/img/bg.jpg', _t('资料卡背景图片'), _t('在这里填入资料卡背景图片url，如：http://api.tongleer.com/picturebed/img/bg.jpg'));
+	$config_headBg = new Typecho_Widget_Helper_Form_Element_Text('config_headBg', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg', _t('资料卡背景图片'), _t('在这里填入资料卡背景图片url，如：https://ws3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg'));
     $form->addInput($config_headBg);
 	$config_headBg = @isset($_POST['config_headBg']) ? addslashes(trim($_POST['config_headBg'])) : '';
 	if($config_headBg){
@@ -73,7 +73,7 @@ function themeConfig($form) {
 	$config_follownum = new Typecho_Widget_Helper_Form_Element_Text('config_follownum', array('value'), '', _t('关注数'), _t('显示在昵称下面'));
     $form->addInput($config_follownum);
 	
-	$config_follow_qrcode = new Typecho_Widget_Helper_Form_Element_Text('config_follow_qrcode', array('value'), 'http://me.tongleer.com/content/uploadfile/201706/008b1497454448.png', _t('关注二维码'), _t('在这里填入头部资料卡关注的二维码图片地址，如：http://me.tongleer.com/content/uploadfile/201706/008b1497454448.png'));
+	$config_follow_qrcode = new Typecho_Widget_Helper_Form_Element_Text('config_follow_qrcode', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhkxs6qbj203w03wt8m.jpg', _t('关注二维码'), _t('在这里填入头部资料卡关注的二维码图片地址，如：https://ws3.sinaimg.cn/large/ecabade5ly1fxqhkxs6qbj203w03wt8m.jpg'));
     $form->addInput($config_follow_qrcode);
 	
 	$config_home_name = new Typecho_Widget_Helper_Form_Element_Text('config_home_name', array('value'), '主页', _t('主页名称'), _t('在这里填入头部资料卡关注右侧按钮的名称，如：主页'));

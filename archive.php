@@ -122,7 +122,7 @@ include('config.php');
 			<ul class="am-avg-sm-3" style="text-align:center;">
 			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="">阅读 <?php get_post_view($this); ?></a></li>
 			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>#comments">评论 <?php $this->commentsNum('0', '1', '%d'); ?></a></li>
-			  <li style="border-top:1px solid #ddd;"><a class="am-list-item-text" href="http://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" >分享 <span class="am-icon-share-square-o"></span></a></li>
+			  <li style="border-top:1px solid #ddd;"><a class="am-list-item-text" href="https://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" >分享 <span class="am-icon-share-square-o"></span></a></li>
 			</ul>
 		  </li>
 		  <?php endwhile; ?>
