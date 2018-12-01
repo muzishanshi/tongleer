@@ -88,7 +88,7 @@ include('config.php');
 				<?php
 				$thumb=showThumb($this);
 				$youku='player.youku.com';
-				$miaopai='gslb.miaopai.com';
+				$miaopai='miaopai.com';
 				$douyin='aweme.snssdk.com';
 				if(count($thumb)<9&&count($thumb)!=0){
 					if(strpos($thumb[0],$youku)===false&&strpos($thumb[0],$miaopai)===false&&strpos($thumb[0],$douyin)===false){
@@ -100,6 +100,10 @@ include('config.php');
 					}else if(strpos($thumb[0],'player.youku.com')){
 						?>
 						<iframe height="400" width="100%" src="<?=$thumb[0];?>" frameborder="0" "allowfullscreen"></iframe>
+						<?php
+					}else if(strpos($thumb[0],'miaopai.com')){
+						?>
+						<video src="<?=$thumb[0];?>" controls="controls"></video>
 						<?php
 					}
 				}else if(count($thumb)>=9){
