@@ -3,6 +3,47 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
 include('config.php');
 ?>
+<script type="text/javascript">
+	$(function(){
+		/*鼠标移入和移出事件*/
+		$('.menu li').hover(function(){	
+			$(this).find('.two').show();
+			/*鼠标移入和移出事件*/
+			$('.two li').hover(function(){
+				var content=$(this).find('.hide li:first small').text();
+				if(content != null && content.length != 0){
+					$(this).find('.hide').show();
+				}
+			},function(){
+				$(this).find('.hide').hide();
+			});
+		},function(){
+			$(this).find('.two').hide();
+		});
+	});
+</script>
+<style>
+#nav ul.menu li ul{
+		position: relative; 
+		top: 0px; 
+		background: #fff; 
+		border: 1px solid #eee;
+		border-radius: 0 0 3px 3px; 
+	}
+	#nav ul.menu li ul li{
+		position: relative;
+	}
+	#nav ul.menu li ul li .hide{
+		position: relative; 
+		top: 0px; 
+		left: 0px;
+		border: 1px solid #eee;
+		border-radius: 0 0 3px 3px; 
+	}
+	.two,.hide{
+		display:none;
+	}
+</style>
 <style>
 	a{
 		color:#000;
@@ -46,13 +87,51 @@ include('config.php');
 		<div data-am-widget="tabs">
 		  <ul class="am-tabs-nav">
 			  <li><a class="am-btn am-radius" href="<?=$this->options ->siteUrl();?>"><small>全部</small></a></li>
-			  <li class="am-dropdown" data-am-dropdown>
+			  <li id="nav" class="am-dropdown" data-am-dropdown>
 				<a class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle><small>更多</small><span class="am-icon-caret-down"></span></a>
-				<ul class="am-dropdown-content">
+				<ul class="am-dropdown-content menu">
+					<!--
 					<?php $this->widget('Widget_Metas_Category_List')->to($cats); ?>
 					<?php while ($cats->next()): ?>
 						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><small><?php $cats->name()?></small></a></li>
 					<?php endwhile; ?>
+					-->
+					<?php
+					$this->widget('Widget_Metas_Category_List')->to($categories);
+					while($categories->next()){
+						if($categories->parent!=0){
+							continue;
+						}
+						?>
+						<li>
+							<a href="<?php echo $categories->permalink;?>" title="<?php echo $categories->name;?>"><small><?php echo $categories->name;?></small></a>
+							<ul class="two">
+								<?php
+								$children = $categories->getAllChildren($categories->mid);
+								foreach ($children as $mid) {
+									$child = $categories->getCategory($mid);
+									?>
+									<li>
+										<a href="<?php echo $child['permalink'];?>" title="<?php echo $child['name'];?>"><small><?php echo $child['name']; ?></small></a>
+										<ul class="hide">
+											<?php
+											$threecate = $categories->getAllChildren($child['mid']);
+											foreach ($threecate as $three) {
+											?>
+											<li><a href="<?php echo $three['permalink'];?>" title="<?php echo $three['name'];?>"><small><?php echo $three['name']; ?></small></a></li>
+											<?php
+											}
+											?>
+										</ul>
+									</li>
+									<?php
+								}
+								?>
+							</ul>
+						</li>
+						<?php
+					}
+					?>
 				</ul>
 			  </li>
 			  <li>
