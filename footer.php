@@ -7,7 +7,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 		<li id="go-bottom" class="am-icon-btn am-icon-arrow-down"></li>
 		<!--侧滑评论所需开始-->
 		<?php if ($this->is('post')) : ?>
-		<div id="pjax-comment"><li id="ex-comment" class="am-icon-btn am-icon-comments"></li></div>
+		<li id="ex-comment" class="am-icon-btn am-icon-comments"></li>
 		<?php endif; ?>
 		<!--侧滑评论所需结束-->
 	</ul>
