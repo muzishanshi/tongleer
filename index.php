@@ -4,12 +4,11 @@
  * 
  * @package tongleer
  * @author 二呆
- * @version 1.0.7
+ * @version 1.0.8
  * @link http://www.tongleer.com/
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
-include('config.php');
 ?>
 <script type="text/javascript">
 	$(function(){
@@ -98,12 +97,6 @@ include('config.php');
 			  <li id="nav" class="am-dropdown" data-am-dropdown>
 				<a class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle><small>更多</small><span class="am-icon-caret-down"></span></a>
 				<ul class="am-dropdown-content menu">
-					<!--
-					<?php $this->widget('Widget_Metas_Category_List')->to($cats); ?>
-					<?php while ($cats->next()): ?>
-						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><small><?php $cats->name()?></small></a></li>
-					<?php endwhile; ?>
-					-->
 					<?php
 					$this->widget('Widget_Metas_Category_List')->to($categories);
 					while($categories->next()){
@@ -113,9 +106,12 @@ include('config.php');
 						?>
 						<li>
 							<a href="<?php echo $categories->permalink;?>" title="<?php echo $categories->name;?>"><small><?php echo $categories->name;?></small></a>
+							<?php
+							$children = $categories->getAllChildren($categories->mid);
+							if(count($children)>0){
+							?>
 							<ul class="two">
 								<?php
-								$children = $categories->getAllChildren($categories->mid);
 								foreach ($children as $mid) {
 									$child = $categories->getCategory($mid);
 									?>
@@ -136,6 +132,9 @@ include('config.php');
 								}
 								?>
 							</ul>
+							<?php
+							}
+							?>
 						</li>
 						<?php
 					}
@@ -157,7 +156,7 @@ include('config.php');
 		  <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left tleajaxpage" style="background-color:#fff;margin-bottom:10px;">
 			<div <?php if(isMobile()){?>class="am-u-sm-3 am-list-thumb"<?php }else{?>class="am-u-sm-2 am-list-thumb"<?php }?>>
 			  <a href="<?php $this->author->permalink(); ?>" rel="author">
-				<img class="am-circle" src="<?=$config_headImgUrl;?>"/>
+				<img class="am-circle" src="<?=$this->options->headImgUrl;?>"/>
 			  </a>
 			</div>
 			<div <?php if(isMobile()){?>class="am-u-sm-9 am-list-main"<?php }else{?>class="am-u-sm-10 am-list-main"<?php }?> style="margin-bottom:5px;">
@@ -180,9 +179,9 @@ include('config.php');
 				if(count($thumb)<9&&count($thumb)!=0){
 					if(strpos($thumb[0],$youku)===false&&strpos($thumb[0],$miaopai)===false&&strpos($thumb[0],$douyin)===false){
 						?>
-						<div class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
-						  <img src="<?=$thumb[0];?>"  alt="" width="180" />
-						</div>
+						<ul class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+						  <li><img src="<?=$thumb[0];?>"  alt="" width="180" /></li>
+						</ul>
 						<?php
 					}else if(strpos($thumb[0],'player.youku.com')){
 						?>
@@ -211,7 +210,7 @@ include('config.php');
 				?>
 			</div>
 			<ul class="am-avg-sm-3" style="text-align:center;">
-			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="">阅读 <?php get_post_view($this); ?></a></li>
+			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>">阅读 <?php get_post_view($this); ?></a></li>
 			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>#comments">评论 <?php $this->commentsNum('0', '1', '%d'); ?></a></li>
 			  <li style="border-top:1px solid #ddd;"><a class="am-list-item-text" href="http://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" >分享 <span class="am-icon-share-square-o"></span></a></li>
 			</ul>
@@ -222,70 +221,27 @@ include('config.php');
 			<li class="am-pagination-next"><?php $this->pageLink('上一页'); ?></li>
 			<li class="am-pagination-prev"><?php $this->pageLink('下一页','next'); ?></li>
 		</div>
-		<?php if($this->options->config_is_ajax_page=='y'){?>
+		<?php if($this->options->is_ajax_page=='y'){?>
 		<!--ajax分页加载-->
-		<script src="<?php $this->options->themeUrl('assets/js/jquery.ias.min.js'); ?>" type="text/javascript"></script>
 		<script>
-		var ias = $.ias({
-			container: "#content", /*包含所有文章的元素*/
-			item: ".tleajaxpage", /*文章元素*/
-			pagination: ".am-pagination", /*分页元素*/
-			next: ".am-pagination a.next", /*下一页元素*/
+		$(function(){
+			var ias = $.ias({
+				container: "#content", /*包含所有文章的元素*/
+				item: ".tleajaxpage", /*文章元素*/
+				pagination: ".am-pagination", /*分页元素*/
+				next: ".am-pagination a.next", /*下一页元素*/
+			});
+			ias.extension(new IASTriggerExtension({
+				text: '<div class="cat-nav am-round"><small></small></div>', /*此选项为需要点击时的文字*/
+				offset: false, /*设置此项后，到 offset+1 页之后需要手动点击才能加载，取消此项则一直为无限加载*/
+			}));
+			ias.extension(new IASSpinnerExtension());
+			ias.extension(new IASNoneLeftExtension({
+				text: '<div class="cat-nav am-round"><small></small></div>', /*加载完成时的提示*/
+			}));
 		});
-		ias.extension(new IASTriggerExtension({
-			text: '<div class="cat-nav am-round"><small>猛点几次查看更多内容</small></div>', /*此选项为需要点击时的文字*/
-			offset: 2, /*设置此项后，到 offset+1 页之后需要手动点击才能加载，取消此项则一直为无限加载*/
-		}));
-		ias.extension(new IASSpinnerExtension());
-		ias.extension(new IASNoneLeftExtension({
-			text: '<div class="cat-nav am-round"><small>已经是全部内容了</small></div>', /*加载完成时的提示*/
-		}));
 		</script>
 		<?php }?>
-	  <?php else: ?>
-		<style>
-		.page-main{
-			background-color:#fff;
-			margin:0px auto 0px auto;
-		}
-		@media screen and (max-width: 960px) {
-			.page-main {width: 100%;}
-		}
-		</style>
-		<section class="page-main">
-		  <div class="admin-content">
-			<div class="admin-content-body">
-			  <div class="am-cf am-padding am-padding-bottom-0">
-				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">404</strong> / <small>That’s an error</small></div>
-			  </div>
-
-			  <hr>
-
-			  <div class="am-g">
-				<div class="am-u-sm-12">
-				  <h2 class="am-text-center am-text-xxxl am-margin-top-lg">404. Not Found</h2>
-				  <p class="am-text-center">没有找到你要的页面</p>
-				<pre class="page-404">
-				  .----.
-			   _.'__    `.
-		   .--($)($$)---/#\
-		 .' @          /###\
-		 :         ,   #####
-		  `-..__.-' _.-\###/
-				`;_:    `"'
-			  .'"""""`.
-			 /,  ya ,\\
-			//  404!  \\
-			`-._______.-'
-			___`. | .'___
-		   (______|______)
-				</pre>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		<!-- content end -->
-		</section>
 	  <?php endif; ?>  
 	</section>
   </div>

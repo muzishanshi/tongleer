@@ -1,7 +1,6 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
-include('config.php');
 ?>
 <script type="text/javascript">
 	$(function(){
@@ -90,12 +89,6 @@ include('config.php');
 			  <li id="nav" class="am-dropdown" data-am-dropdown>
 				<a class="am-dropdown-toggle am-btn am-radius" data-am-dropdown-toggle><small>更多</small><span class="am-icon-caret-down"></span></a>
 				<ul class="am-dropdown-content menu">
-					<!--
-					<?php $this->widget('Widget_Metas_Category_List')->to($cats); ?>
-					<?php while ($cats->next()): ?>
-						<li><a href="<?php $cats->permalink()?>" title="<?php $cats->name()?>"><small><?php $cats->name()?></small></a></li>
-					<?php endwhile; ?>
-					-->
 					<?php
 					$this->widget('Widget_Metas_Category_List')->to($categories);
 					while($categories->next()){
@@ -105,29 +98,35 @@ include('config.php');
 						?>
 						<li>
 							<a href="<?php echo $categories->permalink;?>" title="<?php echo $categories->name;?>"><small><?php echo $categories->name;?></small></a>
-							<ul class="two">
 								<?php
 								$children = $categories->getAllChildren($categories->mid);
-								foreach ($children as $mid) {
-									$child = $categories->getCategory($mid);
+								if(count($children)>0){
 									?>
-									<li>
-										<a href="<?php echo $child['permalink'];?>" title="<?php echo $child['name'];?>"><small><?php echo $child['name']; ?></small></a>
-										<ul class="hide">
-											<?php
-											$threecate = $categories->getAllChildren($child['mid']);
-											foreach ($threecate as $three) {
-											?>
-											<li><a href="<?php echo $three['permalink'];?>" title="<?php echo $three['name'];?>"><small><?php echo $three['name']; ?></small></a></li>
-											<?php
-											}
-											?>
-										</ul>
-									</li>
+									<ul class="two">
 									<?php
+									foreach ($children as $mid) {
+										$child = $categories->getCategory($mid);
+										?>
+										<li>
+											<a href="<?php echo $child['permalink'];?>" title="<?php echo $child['name'];?>"><small><?php echo $child['name']; ?></small></a>
+											<ul class="hide">
+												<?php
+												$threecate = $categories->getAllChildren($child['mid']);
+												foreach ($threecate as $three) {
+												?>
+												<li><a href="<?php echo $three['permalink'];?>" title="<?php echo $three['name'];?>"><small><?php echo $three['name']; ?></small></a></li>
+												<?php
+												}
+												?>
+											</ul>
+										</li>
+										<?php
+									}
+									?>
+									</ul>
+								<?php
 								}
 								?>
-							</ul>
 						</li>
 						<?php
 					}

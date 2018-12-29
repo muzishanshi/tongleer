@@ -1,26 +1,31 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
+<div id="side-button">
+	<ul>
+		<li id="go-top" class="am-icon-btn am-icon-arrow-up"></li>
+		<li id="go-bottom" class="am-icon-btn am-icon-arrow-down"></li>
+		<!--侧滑评论所需开始-->
+		<?php if ($this->is('post')) : ?>
+		<div id="pjax-comment"><li id="ex-comment" class="am-icon-btn am-icon-comments"></li></div>
+		<?php endif; ?>
+		<!--侧滑评论所需结束-->
+	</ul>
+</div>
 <!-- footer -->
 <footer class="am-footer am-footer-default">
-	<a style="position:fixed;right: 50px;bottom: 50px;" href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up" id="amz-go-top"></a>
 	<div class="am-footer-miscs ">
-		<?=$this->options->config_foot_info();?>
-    </div>
-    <div class="am-footer-miscs ">
-        <p>
-			CopyRight©2018 <a href="<?=$this->options ->siteUrl();?>"><?php $this->options->title();?></a>
-		</p>
+		<?=printFriends($this->options->friendlink);?>
     </div>
 	<div class="am-footer-miscs ">
 		<!--尊重以下网站版权是每一个合法公民应尽的义务，请不要去除以下版权。-->
 		<p>
-			Powered by <a href="http://typecho.org/" title="Typecho" target="_blank" rel="nofollow">Typecho</a> Theme By <a id="rightdetail" href="http://www.tongleer.com" target="_blank" title="同乐儿">同乐儿</a>
+			CopyRight©<?=date("Y");?> <a href="<?=$this->options ->siteUrl();?>"><?php $this->options->title();?></a> Powered by <a href="http://typecho.org/" title="Typecho" target="_blank" rel="nofollow">Typecho</a> Theme By <a id="rightdetail" href="http://www.tongleer.com" target="_blank" title="同乐儿">Tongleer</a>
 		</p>
     </div>
-	<div style="display:none;"><?=$this->options->config_foot_count();?></div>
+	<div style="display:none;"><?=$this->options->foot_count;?></div>
 </footer>
-<?php if($this->options->config_is_pjax=='y'){?>
+<?php if($this->options->is_pjax=='y'){?>
 <!--pjax刷新开始-->
 <style>
 .pjax_loading {position: fixed;top: 45%;left: 45%;display: none;z-index: 999999;width: 124px;height: 124px;background: url('<?php $this->options->themeUrl('assets/images/pjax_loading.gif'); ?>') 50% 50% no-repeat;}
@@ -45,7 +50,7 @@ $(function() {
 <div class="pjax_loading1"></div>
 <!--pjax刷新结束-->
 <?php }?>
-<?php if($this->options->config_is_play=='y'){?>
+<?php if($this->options->is_play=='y'){?>
 <!--音乐播放器开始-->
 <link href="https://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/smusic/css/smusic.css'); ?>"/>
@@ -175,6 +180,7 @@ var musicList = [
 </script>
 <!--音乐播放器结束-->
 <?php }?>
+<script src="<?php $this->options->themeUrl('assets/js/jquery.ias.min.js'); ?>" type="text/javascript"></script>
 <!--[if lt IE 9]>-->
 <script src="https://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
 <script src="<?php $this->options->themeUrl('assets/js/amazeui.ie8polyfill.min.js'); ?>"></script>
@@ -182,5 +188,47 @@ var musicList = [
 <script src="<?php $this->options->themeUrl('assets/js/amazeui.widgets.helper.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php $this->options->themeUrl('assets/js/amazeui.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php $this->options->themeUrl('assets/js/app.js'); ?>"></script>
+<script>
+/*侧滑评论所需开始*/
+$(function() {
+	if(window.location.href.indexOf("#comment-")>-1) {
+		$("#post-comments").addClass("comment-open");
+	}
+	$("#ex-comment").click(function() {
+		$("#post-comments").toggleClass("comment-open");
+	});
+});
+/*侧滑评论所需结束*/
+/*goToTop*/
+$(function(){
+	$("#go-top").hide();
+	$(window).scroll(function(){
+		if($(this).scrollTop() > 100){
+			$('#go-top').fadeIn();
+		}else{
+			$('#go-top').fadeOut();
+		}
+	});
+	$('#go-top').click(function(){
+		$('html ,body').animate({scrollTop: 0}, 300);
+		return false;
+	});
+});
+/*goToBottom*/
+$(function(){
+	$(window).scroll(function(){
+		if($(this).scrollTop() > (document.body.scrollHeight - 1000)) {
+			$('#go-bottom').fadeOut();
+		}else{
+			$('#go-bottom').fadeIn();
+		}
+	});
+	$('#go-bottom').click(function(){
+		$('html ,body').animate({scrollTop: document.body.scrollHeight}, 300);
+		return false;
+	});
+});
+</script>
+<?php $this->footer(); ?>
 </body>
 </html>

@@ -10,10 +10,12 @@ Version:1.0.0
 /* ===================================
     Google font
 ====================================== */
+/*
 @import url(https://fonts.cat.net/css?family=Roboto:300,400,500,700);
 @import url(https://fonts.cat.net/css?family=Open+Sans:400,300,600,700,800);
 @import url(https://fonts.cat.net/css?family=Roboto:400,300,700);
 @import url(https://fonts.cat.net/css?family=Open+Sans+Condensed:300,300italic,700);
+*/
 
 /* ===================================
     Reset
@@ -57,3 +59,141 @@ ul, ol, dl {list-style-position: outside;}
 /* font family */
 .alt-font {font-family: "Roboto",sans-serif !important;}
 .main-font {font-family: 'Roboto', sans-serif !important;}
+/*评论开始*/
+#comments {
+    padding: 10px;
+	width: calc(100% - 20px);
+	max-width: 767px;
+	margin: 0 auto;
+}
+#comments h3 {
+	font-size: 18px;
+}
+input[type="text"],input[type="email"],input[type="url"],input[type="password"],textarea {
+    padding: 5px;
+    border: 1px solid #E9E9E9;
+    width: 100%;
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.submit {
+    border: 1px solid #E9E9E9;
+    border-radius: 2px;
+    padding: 5px 10px;;
+    background: white;
+}
+.comment-list,.comment-list ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.comment-list li {
+    padding: 14px;
+    margin-top: 10px;
+    border: 1px solid #EEE;
+}
+.comment-list li.comment-level-odd {
+    background: #F6F6F3;
+}
+.comment-list li.comment-level-even {
+    background: #FFF;
+}
+.comment-list li.comment-by-author {
+    background: #F9F9F9;
+}
+.comment-list li .comment-reply {
+    text-align: right;
+    font-size: .92857em;
+}
+.comment-meta a {
+    color: #999;
+    font-size: .92857em;
+}
+.comment-author {
+    display: block;
+    margin-bottom: 3px;
+    color: #444;
+}
+.comment-author .avatar {
+    float: left;
+    margin-right: 10px;
+    border-radius: 32px;
+}
+.comment-author cite {
+    font-weight: bold;
+    font-style: normal;
+}
+.comment-list .respond {
+    margin-top: 15px;
+    border-top: 1px solid #EEE;
+}
+.respond .cancel-comment-reply {
+    float: right;
+    margin-top: 15px;
+    font-size: .92857em;
+}
+/*评论结束*/
+/*隐藏的侧滑栏开始*/
+#side-button {
+	position: fixed;
+	bottom: 70px;
+	right: 15px;
+	width: 38px;
+	transition: right .5s;
+	opacity: .7;
+}
+#side-button:hover {
+	opacity: 1;
+}
+#side-button ul {
+	padding: 0;
+}
+#side-button li {
+	display: block;
+	list-style: none;
+	width: 34px;
+	height: 34px;
+	margin: 2px;
+	color: darkgray;
+	text-align: center;
+	line-height: 34px;
+	background-color: white;
+	border: solid 1px whitesmoke;
+	border-radius: 20px;
+	background-color: whitesmoke;
+}
+#side-button li:hover {
+	color: gray;
+	border: solid 1px #e7e7e7;
+	background-color: #e7e7e7;
+}
+#comment-form label {
+    display: block;
+    margin-bottom: .5em;
+    font-weight: bold;
+}
+#comment-form .required:after {
+    content: " *";
+    color: #C00;
+}
+/*隐藏的侧滑栏结束*/
+/*侧滑评论开始*/
+#post-comments {
+	position: fixed;
+	top: 0;
+	right: -380px;
+	width: 380px;
+	max-width: 100vw;
+	height: 100vh;
+	padding-top: 40px;
+	border-left: solid 1px #e7e7e7;
+	background-color: white;
+	overflow-y: scroll;
+	transition: right .5s;
+}
+.comment-open {
+	right: 0!important;
+}
+/*侧滑评论结束*/

@@ -1,7 +1,6 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
-include('config.php');
 ?>
 <script type="text/javascript">
 	$(function(){
@@ -149,7 +148,7 @@ include('config.php');
 		  <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left tleajaxpage" style="background-color:#fff;margin-bottom:10px;">
 			<div <?php if(isMobile()){?>class="am-u-sm-3 am-list-thumb"<?php }else{?>class="am-u-sm-2 am-list-thumb"<?php }?>>
 			  <a href="<?php $this->author->permalink(); ?>" rel="author">
-				<img class="am-circle" src="<?=$config_headImgUrl;?>"/>
+				<img class="am-circle" src="<?=$this->options->headImgUrl;?>"/>
 			  </a>
 			</div>
 			<div <?php if(isMobile()){?>class="am-u-sm-9 am-list-main"<?php }else{?>class="am-u-sm-10 am-list-main"<?php }?> style="margin-bottom:5px;">
@@ -172,9 +171,9 @@ include('config.php');
 				if(count($thumb)<9&&count($thumb)!=0){
 					if(strpos($thumb[0],$youku)===false&&strpos($thumb[0],$miaopai)===false&&strpos($thumb[0],$douyin)===false){
 						?>
-						<div class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
-						  <img src="<?=$thumb[0];?>"  alt="" width="180" />
-						</div>
+						<ul class="am-avg-sm-3" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+						  <li><img src="<?=$thumb[0];?>"  alt="" width="180" /></li>
+						</ul>
 						<?php
 					}else if(strpos($thumb[0],'player.youku.com')){
 						?>
@@ -203,7 +202,7 @@ include('config.php');
 				?>
 			</div>
 			<ul class="am-avg-sm-3" style="text-align:center;">
-			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="">阅读 <?php get_post_view($this); ?></a></li>
+			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>">阅读 <?php get_post_view($this); ?></a></li>
 			  <li style="border-right:1px solid #ddd;border-top:1px solid #ddd;"><a class="am-list-item-text" href="<?php $this->permalink(); ?>#comments">评论 <?php $this->commentsNum('0', '1', '%d'); ?></a></li>
 			  <li style="border-top:1px solid #ddd;"><a class="am-list-item-text" href="https://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" >分享 <span class="am-icon-share-square-o"></span></a></li>
 			</ul>
@@ -214,24 +213,25 @@ include('config.php');
 			<li class="am-pagination-next"><?php $this->pageLink('上一页'); ?></li>
 			<li class="am-pagination-prev"><?php $this->pageLink('下一页','next'); ?></li>
 		</div>
-		<?php if($this->options->config_is_ajax_page=='y'){?>
+		<?php if($this->options->is_ajax_page=='y'){?>
 		<!--ajax分页加载-->
-		<script src="<?php $this->options->themeUrl('assets/js/jquery.ias.min.js'); ?>" type="text/javascript"></script>
 		<script>
-		var ias = $.ias({
-			container: "#content", /*包含所有文章的元素*/
-			item: ".tleajaxpage", /*文章元素*/
-			pagination: ".am-pagination", /*分页元素*/
-			next: ".am-pagination a.next", /*下一页元素*/
+		$(function(){
+			var ias = $.ias({
+				container: "#content", /*包含所有文章的元素*/
+				item: ".tleajaxpage", /*文章元素*/
+				pagination: ".am-pagination", /*分页元素*/
+				next: ".am-pagination a.next", /*下一页元素*/
+			});
+			ias.extension(new IASTriggerExtension({
+				text: '<div class="cat-nav am-round"><small></small></div>', /*此选项为需要点击时的文字*/
+				offset: false, /*设置此项后，到 offset+1 页之后需要手动点击才能加载，取消此项则一直为无限加载*/
+			}));
+			ias.extension(new IASSpinnerExtension());
+			ias.extension(new IASNoneLeftExtension({
+				text: '<div class="cat-nav am-round"><small></small></div>', /*加载完成时的提示*/
+			}));
 		});
-		ias.extension(new IASTriggerExtension({
-			text: '<div class="cat-nav am-round"><small>猛点几次查看更多内容</small></div>', /*此选项为需要点击时的文字*/
-			offset: 2, /*设置此项后，到 offset+1 页之后需要手动点击才能加载，取消此项则一直为无限加载*/
-		}));
-		ias.extension(new IASSpinnerExtension());
-		ias.extension(new IASNoneLeftExtension({
-			text: '<div class="cat-nav am-round"><small>已经是全部内容了</small></div>', /*加载完成时的提示*/
-		}));
 		</script>
 		<?php }?>
 	  <?php else: ?>

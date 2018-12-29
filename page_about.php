@@ -7,7 +7,6 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
-include('config.php');
 ?>
 <script type="text/javascript">
 	$(function(){

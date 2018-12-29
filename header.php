@@ -1,5 +1,4 @@
 <?php if(!defined( '__TYPECHO_ROOT_DIR__'))exit;?>
-<?php include('config.php');?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -9,12 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="renderer" content="webkit">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <meta name="author" content="<?php $this->options->title(); ?>">
   <meta name="description" itemprop="description" content="<?php $this->options->description(); ?>">
   <meta name="keywords" content="<?php $this->options->keywords(); ?>">
   <link rel="stylesheet" type="text/css" media="all" href="<?php $this->options->themeUrl('assets/css/style.css'); ?>" />
-  <link rel="alternate icon" href="<?php if($config_favicon){echo $config_favicon;}else{echo $this->options->themeUrl('assets/i/favicon.png');} ?>" type="image/png" />
+  <link rel="apple-touch-icon" href="<?=$this->options->favicon;?>" type="image/png" />
+  <link rel="alternate icon" href="<?=$this->options->favicon;?>" type="image/png" />
   <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/amazeui.min.css'); ?>"/>
   <!--[if lt IE 9]>-->
   <script src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
@@ -22,8 +23,9 @@
   <!--[if (gte IE 9)|!(IE)]><!-->
   <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
   <!--<![endif]-->
+  <?php $this->header(); ?>
 </head>
-<body style="background-image: url('<?=$this->options->config_bg();?>');">
+<body style="background-image: url('<?=$this->options->pagebg;?>');">
 <style>
 .banner-head{
 	background-image: url(https://ws3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg);
@@ -61,8 +63,23 @@
 
 	<div class="am-topbar-collapse am-collapse" id="collapse-head">
 	  <ul class="am-nav am-nav-pills am-topbar-nav">
-		  <li><a href="<?=$this->options ->siteUrl();?>"><span class="am-icon-home"></span>首页</a></li>
-		  <?php if($config_nav){echo $config_nav;}?>
+		<li>
+			<a href="<?=$this->options ->siteUrl();?>"><span class="am-icon-home"></span>首页</a>
+		</li> 
+		<?php
+		  $othernav=json_decode($this->options->othernav,true);
+		  if(isset($othernav)){
+			foreach($othernav as $val){
+				if($val["name"]!=null&&$val["link"]!=null){
+				?>
+				<li>
+					<a href="<?=$val["link"];?>" target="_blank" rel="nofollow"><span class="am-icon-<?=$val["icon"];?>"></span><?=$val["name"];?></a>
+				</li> 
+				<?php
+				}
+			}
+		  }
+		?>
 	  </ul>
 	  <?php if(!$this->user->hasLogin()){ ?>
 	  <div class="am-topbar-right">
@@ -101,32 +118,32 @@
   </div>
 </div>
 <!--end navigation panel -->
-<section class="banner-head" style="background-image:url('<?php if($config_headBg){echo $config_headBg;}else{echo 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg';}?>')">
-	<img class="am-circle" src="<?php if($config_headImgUrl){echo $config_headImgUrl;}else{echo 'https://cambrian-images.cdn.bcebos.com/39ceafd81d6813a014e747db4aa6f0eb_1524963877208.jpeg';}?>" width="100" height="100"/><br />
+<section class="banner-head" style="background-image:url('<?=$this->options->headBg;?>')">
+	<img class="am-circle" src="<?=$this->options->headImgUrl;?>" width="100" height="100"/><br />
 	<span>
-		<?php if($config_nickname){echo $config_nickname;}else{echo '快乐贰呆';}?>
-		<?php if($this->options->config_sex=='boy'){echo "♂";}else{echo "♀";};?>
+		<?=$this->options->nickname;?>
+		<?php if($this->options->sex=='boy'){echo "♂";}else{echo "♀";};?>
 	</span><br />
 	<?php
 	$userQuery= $this->db->select()->from('table.users');
 	$userData = $this->db->fetchAll($userQuery);
 	?>
-	<small>关注 <?=$this->options->config_follownum(); ?>  |  粉丝 <?php echo count($userData);?></small><br />
+	<small>关注 <?php $friendlink=json_decode($this->options->friendlink,true);echo count($friendlink); ?>  |  粉丝 <?php echo count($userData);?></small><br />
 	<small><?php $this->options->description(); ?></small><br />
 	<small>微博认证：<?php if($this->options->config_weiboname){echo $this->options->config_weiboname;}else{echo '同乐儿';}?></small>
 	<div>
 		<div class="am-dropdown" data-am-dropdown>
 		  <button class="am-btn am-btn-warning am-radius am-btn-xs am-dropdown-toggle">关注</button>
 		  <div class="am-dropdown-content">
-			<img src="<?php if($config_follow_qrcode){echo $config_follow_qrcode;}else{echo 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhkxs6qbj203w03wt8m.jpg';}?>" width="150" height="150"/>
+			<img src="<?=$this->options->follow_qrcode;?>" width="150" height="150"/>
 		  </div>
 		</div>
-		<button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" onClick="location.href='<?php if($config_home_link){echo $config_home_link;}else{echo $this->options ->siteUrl();}?>';"><?php if($config_home_name){echo $config_home_name;}else{echo '主页';}?></button>
+		<button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" onClick="location.href='<?=$this->options->home_link;?>';"><?=$this->options->home_name;?></button>
 		<div class="am-dropdown" data-am-dropdown>
 			<button class="am-btn am-btn-warning am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span
         class="am-icon-bars"></span></button>
 		  <ul class="am-dropdown-content">
-			<li><a href="<?php if($config_other_1_link){echo $config_other_1_link;}else{echo $this->options ->siteUrl();}?>"><?php if($config_other_1_name){echo $config_other_1_name;}else{echo '^_^';}?></a></li>
+			<li><a href="<?=$this->options->other_1_link;?>" target="_blank"><?=$this->options->other_1_name;?></a></li>
 		  </ul>
 		</div>
 	</div>
@@ -135,8 +152,7 @@
 	<div data-am-widget="tabs">
       <ul class="am-tabs-nav">
           <li><a class="am-btn am-radius" href="<?=$this->options ->siteUrl();?>"><small>主页</small></a></li>
-		  <li><a class="am-btn am-radius" target="_blank" href="<?php if($config_album_link){echo $config_album_link;}else{echo $this->options ->siteUrl();}?>"><small><?php if($config_album_name){echo $config_album_name;}else{echo '相册';}?></small></a></li>
-		  <li><a class="am-btn am-radius" target="_blank" href="<?=$this->options ->siteUrl();?>/wemedia_goods.html"><small>商城</small></a></li>
+		  <li><a class="am-btn am-radius" target="_blank" href="<?=$this->options->album_link;?>"><small><?=$this->options->album_name;?></small></a></li>
       </ul>
 	</div>
 </div>
