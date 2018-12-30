@@ -173,6 +173,7 @@ $this->need('header.php');
 				<a href="http://connect.qq.com/widget/shareqq/index.html?url=<?=curPageURL();?>&title=<?php echo $this->title(); ?>&site=<?=$this->options ->siteUrl();?>&desc=这是一篇神奇的文章&summary=<?php echo $sharecontent; ?>&pics=<?php if(count($sharematche[1])>0){echo $sharematche[1][0];}?>" onclick="window.open(this.href, 'share', 'width=550,height=335');return false;" ><img src="<?php $this->options->themeUrl('assets/images/icon_qq.png'); ?>" alt="" /></a>
 			</p>
 		</div>
+		<?php $this->need('comments.php'); ?>
 	</section>
   </div>
   <?php $this->need('sidebar.php'); ?>

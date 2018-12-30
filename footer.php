@@ -6,7 +6,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 		<li id="go-top" class="am-icon-btn am-icon-arrow-up"></li>
 		<li id="go-bottom" class="am-icon-btn am-icon-arrow-down"></li>
 		<!--侧滑评论所需开始-->
-		<?php if ($this->is('post')) : ?>
+		<?php if ($this->is('post')||$this->is('page')) : ?>
 		<li id="ex-comment" class="am-icon-btn am-icon-comments"></li>
 		<?php endif; ?>
 		<!--侧滑评论所需结束-->
