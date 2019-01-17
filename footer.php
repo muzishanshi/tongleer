@@ -56,6 +56,7 @@ $(function() {
 		if(window.location.href.indexOf("comment")!=-1){
 			$("#submitComment").attr("type","button");
 			$("#submitComment").text("浏览器后退后继续评论");
+			$("#submitComment").attr("onClick","window.history.go(-1);");
 		}
 		if(window.location.href.indexOf("logout")!=-1){
 			location.href="<?=$this->options ->siteUrl();?>";

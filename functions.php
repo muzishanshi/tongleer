@@ -10,7 +10,7 @@ function themeConfig($form) {
 	$is_pjax = new Typecho_Widget_Helper_Form_Element_Radio('is_pjax', array(
 		'y'=>_t('启用'),
 		'n'=>_t('禁用')
-	), 'n', _t('PJAX无刷新加载'),_t('开启后网页中非新窗口打开非登录非评论的跳转将变为无刷新跳转，适合与播放器共同使用，已支持pjax评论，但不支持多次评论，可间断评论。'));
+	), 'n', _t('PJAX无刷新加载'),_t('开启后网页中非新窗口打开非登录非评论的跳转将变为无刷新跳转，适合与播放器共同使用，已支持pjax评论，<font color=red>但不支持多次评论</font>，可间断评论。开启后如果看不见评论这是因为后台设置开启了反垃圾保护，去掉勾即可。'));
 	$form->addInput($is_pjax->addRule('enum', _t(''), array('y', 'n')));
 	
 	$is_play = new Typecho_Widget_Helper_Form_Element_Radio('is_play', array(
@@ -22,7 +22,7 @@ function themeConfig($form) {
 	$is_ajax_page = new Typecho_Widget_Helper_Form_Element_Radio('is_ajax_page', array(
 		'y'=>_t('启用'),
 		'n'=>_t('禁用')
-	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启，目前开启后与图片放大不兼容。'));
+	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启，<font color=red>目前开启后与图片放大不兼容。</font>'));
 	$form->addInput($is_ajax_page->addRule('enum', _t(''), array('y', 'n')));
 	
 	$is_play_auto = new Typecho_Widget_Helper_Form_Element_Radio('is_play_auto', array(
