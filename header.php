@@ -84,7 +84,11 @@
 	  <?php if(!$this->user->hasLogin()){ ?>
 	  <div class="am-topbar-right">
         <div class="am-topbar-btn">
-			<span class="am-icon-user"></span> <a href="javascript:;"id="login-prompt-toggle">登录</a>
+			<?php if($this->options->is_pjax=='y'){?>
+			<span class="am-icon-user"></span> <a href="<?=$this->options ->siteUrl();?>admin">登录</a>
+			<?php }else{?>
+			<span class="am-icon-user"></span> <a href="javascript:;" id="login-prompt-toggle">登录</a>
+			<?php }?>
 		</div>
       </div>
 	  <?php }else{?>
