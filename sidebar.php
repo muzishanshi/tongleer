@@ -170,11 +170,7 @@ li.frinum, li.vitnum {
 			</ul>
 		</section>
 		
-		<section data-am-sticky="{top:60}">
-			<?php include('page_weibofile_webimgupload.php'); ?>
-		</section>
-		
-		<section class="am-panel am-panel-success">
+		<section class="am-panel am-panel-success" data-am-sticky="{top:60}">
 			<?php $this->widget('Widget_Metas_Tag_Cloud', 'ignoreZeroCount=1&limit=30')->to($tags); ?>
 			<?php if($tags->have()): ?>
 			<div class="am-panel-hd"><small>标签</small></div>
