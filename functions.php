@@ -4,29 +4,91 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 function themeConfig($form) {
 	 $db = Typecho_Db::get();
 	//版本检查
-	$version=file_get_contents('https://tongleer.com/api/interface/tongleer.php?action=update&version=8');
+	$version=file_get_contents('https://tongleer.com/api/interface/tongleer.php?action=update&version=9');
 	echo '<small>感谢使用 WeiboForTypecho 主题，版本检查：'.$version.'</small>';
 	
 	$is_pjax = new Typecho_Widget_Helper_Form_Element_Radio('is_pjax', array(
 		'y'=>_t('启用'),
 		'n'=>_t('禁用')
-	), 'n', _t('PJAX无刷新加载'),_t('开启后网页中非新窗口打开非登录非评论的跳转将变为无刷新跳转，适合与播放器共同使用，但目前还不完善，可选择开启。'));
+	), 'n', _t('PJAX无刷新加载'),_t('开启后网页中非新窗口打开非登录非评论的跳转将变为无刷新跳转，适合与播放器共同使用，已支持pjax评论，但不支持多次评论，可间断评论。'));
 	$form->addInput($is_pjax->addRule('enum', _t(''), array('y', 'n')));
 	
 	$is_play = new Typecho_Widget_Helper_Form_Element_Radio('is_play', array(
 		'y'=>_t('启用'),
 		'n'=>_t('禁用')
-	), 'n', _t('音乐播放器'), _t('开启后网页左下角会出现音乐播放器，适合和PJAX无刷新加载共同使用，默认不自动播放，但是目前只能手动修改主题目录下footer.php文件进行修改歌单，同样可以选择开启。'));
+	), 'n', _t('音乐播放器'), _t('开启后网页左下角会出现音乐播放器，适合和PJAX无刷新加载共同使用。'));
 	$form->addInput($is_play->addRule('enum', _t(''), array('y', 'n')));
 	
 	$is_ajax_page = new Typecho_Widget_Helper_Form_Element_Radio('is_ajax_page', array(
 		'y'=>_t('启用'),
 		'n'=>_t('禁用')
-	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启。'));
+	), 'n', _t('AJAX分页加载'), _t('开启后文章分页链接会变成无限自动加载的形式，可选择开启，目前开启后与图片放大不兼容。'));
 	$form->addInput($is_ajax_page->addRule('enum', _t(''), array('y', 'n')));
+	
+	$is_play_auto = new Typecho_Widget_Helper_Form_Element_Radio('is_play_auto', array(
+		'true'=>_t('自动'),
+		'false'=>_t('手动')
+	), 'false', _t('是否自动播放'), _t('开启后将自动播放音乐。'));
+	$form->addInput($is_play_auto->addRule('enum', _t(''), array('true', 'false')));
+	
+	$is_play_defaultMode = new Typecho_Widget_Helper_Form_Element_Radio('is_play_defaultMode', array(
+		'1'=>_t('列表循环'),
+		'2'=>_t('随机播放'),
+		'3'=>_t('单曲循环')
+	), '2', _t('播放模式'), _t('选择一种播放音乐的模式'));
+	$form->addInput($is_play_defaultMode->addRule('enum', _t(''), array('1', '2', '3')));
 	
 	$query= $db->select('value')->from('table.options')->where('name = ?', 'siteUrl'); 
 	$row = $db->fetchRow($query);
+	
+	$playjsonvalue='
+		[{
+			"title":"花下舞剑",
+			"singer":"童可可",
+			"cover":"https://img3.kuwo.cn/star/albumcover/240/49/7/2753401394.jpg",
+			"src":"http://other.web.rf01.sycdn.kuwo.cn/resource/n1/84/87/3802376964.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-huaxiawujian.lrc"
+		},{
+			"title":"萌二代",
+			"singer":"童可可",
+			"cover":"https://img3.kuwo.cn/star/albumcover/240/35/65/238194684.jpg",
+			"src":"http://other.web.rg01.sycdn.kuwo.cn/resource/n3/21/49/2096701565.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-mengerdai.lrc"
+		},{
+			"title":"吃货进行曲",
+			"singer":"童可可",
+			"cover":"https://img3.kuwo.cn/star/albumcover/240/26/34/1695727344.jpg",
+			"src":"http://other.web.rh01.sycdn.kuwo.cn/resource/n3/15/72/1780780959.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-chihuojinxingqu.lrc"
+		},{
+			"title":"小秘密",
+			"singer":"童可可",
+			"cover":"https://img3.kuwo.cn/star/albumcover/240/55/73/500614479.jpg",
+			"src":"http://other.web.rh01.sycdn.kuwo.cn/resource/n1/74/68/3330561514.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-xiaomimi.lrc"
+		},{
+			"title":"听你爱听的歌",
+			"singer":"童可可",
+			"cover":"https://img1.kuwo.cn/star/starheads/240/16/85/44330486.jpg",
+			"src":"http://other.web.rh01.sycdn.kuwo.cn/resource/n2/80/39/46671518.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-tingniaitingdege.lrc"
+		},{
+			"title":"别让我放不下",
+			"singer":"童可可",
+			"cover":"https://img1.kuwo.cn/star/albumcover/240/9/59/996272309.jpg",
+			"src":"http://other.web.rh01.sycdn.kuwo.cn/resource/n1/15/60/2541949312.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-bierangwofangbuxia.lrc"
+		},{
+			"title":"非主恋",
+			"singer":"童可可",
+			"cover":"https://img4.kuwo.cn/star/albumcover/240/21/10/339989310.jpg",
+			"src":"http://other.web.rh01.sycdn.kuwo.cn/resource/n2/34/93/1218459911.mp3",
+			"lyric":"'.$row["value"].'/usr/themes/tongleer/assets/smusic/data/tongkeke-feizhulian.lrc"
+		}]
+	';
+	$playjson = new Typecho_Widget_Helper_Form_Element_Textarea('playjson', array("value"), $playjsonvalue, _t('播放器音乐数据'), _t('自定义歌单需要至少2首，可到<a href="http://api.tongleer.com/music/" target="_blank">http://api.tongleer.com/music/</a>下载歌曲，专辑图片网络有现成的就用现成的，没有就上传微博图床后设置到此处，歌词文件一般酷狗、酷我等软件即可生成。'));
+	$form->addInput($playjson);
+	
 	$othernavvalue='
 		[{
 			"name":"文章 RSS",

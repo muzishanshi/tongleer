@@ -35,7 +35,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <script type="text/javascript" language="javascript">
 $(function() {
 	$(document).pjax('a[target!=_blank]', '#content', {fragment:'#content', timeout:6000});
-	$(document).on('submit', 'form[id!=loginForm][id!=comment-form][id!=reply-form]', function (event) {
+	$(document).on('submit', 'form', function (event) {
 		$.pjax.submit(event, '#content', {fragment:'#content', timeout:6000});
 	});
 	$(document).on('pjax:send', function() {
@@ -43,6 +43,161 @@ $(function() {
 	});
 	$(document).on('pjax:complete', function() {
 		$(".pjax_loading,.pjax_loading1").css("display", "none");
+		$("#side-button ul #ex-comment").remove();
+		if($("#exist-comment").val()){
+			$("#side-button ul").append('<li id="ex-comment" class="am-icon-btn am-icon-comments"></li>');
+			if(window.location.href.indexOf("#comment-")>-1) {
+				$("#post-comments").addClass("comment-open");
+			}
+			$("#ex-comment").click(function() {
+				$("#post-comments").toggleClass("comment-open");
+			});
+		}
+		if(window.location.href.indexOf("comment")!=-1){
+			$("#submitComment").attr("type","button");
+			$("#submitComment").text("浏览器后退后继续评论");
+		}
+		if(window.location.href.indexOf("logout")!=-1){
+			location.href="<?=$this->options ->siteUrl();?>";
+		}
+		
+		window.TypechoComment = {
+			dom : function (id) {
+				return document.getElementById(id);
+			},
+		
+			create : function (tag, attr) {
+				var el = document.createElement(tag);
+			
+				for (var key in attr) {
+					el.setAttribute(key, attr[key]);
+				}
+			
+				return el;
+			},
+
+			reply : function (cid, coid) {
+				var comment = this.dom(cid), parent = comment.parentNode,
+					response = this.dom('<?php echo $this->respondId(); ?>'), input = this.dom('comment-parent'),
+					form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+					textarea = response.getElementsByTagName('textarea')[0];
+
+				if (null == input) {
+					input = this.create('input', {
+						'type' : 'hidden',
+						'name' : 'parent',
+						'id'   : 'comment-parent'
+					});
+
+					form.appendChild(input);
+				}
+
+				input.setAttribute('value', coid);
+
+				if (null == this.dom('comment-form-place-holder')) {
+					var holder = this.create('div', {
+						'id' : 'comment-form-place-holder'
+					});
+
+					response.parentNode.insertBefore(holder, response);
+				}
+
+				comment.appendChild(response);
+				this.dom('cancel-comment-reply-link').style.display = '';
+
+				if (null != textarea && 'text' == textarea.name) {
+					textarea.focus();
+				}
+
+				return false;
+			},
+
+			cancelReply : function () {
+				var response = this.dom('<?php echo $this->respondId(); ?>'),
+				holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+				if (null != input) {
+					input.parentNode.removeChild(input);
+				}
+
+				if (null == holder) {
+					return true;
+				}
+
+				this.dom('cancel-comment-reply-link').style.display = 'none';
+				holder.parentNode.insertBefore(response, holder);
+				return false;
+			}
+		};
+		
+		var event = document.addEventListener ? {
+			add: 'addEventListener',
+			triggers: ['scroll', 'mousemove', 'keyup', 'touchstart'],
+			load: 'DOMContentLoaded'
+		} : {
+			add: 'attachEvent',
+			triggers: ['onfocus', 'onmousemove', 'onkeyup', 'ontouchstart'],
+			load: 'onload'
+		}, added = false;
+
+		document[event.add](event.load, function () {
+			var r = document.getElementById('<?php echo $this->respondId(); ?>'),
+				input = document.createElement('input');
+			input.type = 'hidden';
+			input.name = '_';
+			input.value = (function () {
+		var _CSn = '9'//'JTK'
+	+'44'//'x'
+	+'R'//'R'
+	+//'q0'
+	'b'+'RrD'//'RrD'
+	+'4e'//'7'
+	+//'o6O'
+	'02b'+'e'//'lq'
+	+//'u'
+	'u'+//'H'
+	'57a'+'b1'//'B'
+	+/* 'lFg'//'lFg' */''+//'v'
+	'18'+//'Z9'
+	'Z9'+//'c18'
+	'6'+/* 'ID'//'ID' */''+//'75o'
+	'3'+'1'//'KRN'
+	+/* '4E3'//'4E3' */''+'426'//'jIn'
+	+//'L'
+	'L'+//'Ui'
+	'0a'+'2'//'7a'
+	+'0'//'gKh'
+	+'2'//'cY'
+	+/* 'FTc'//'FTc' */''+//'x'
+	'8a'+'b'//'J'
+	+'d'//'CD'
+	, _cHLK = [[3,4],[4,7],[10,11],[17,19],[23,24]];
+		
+		for (var i = 0; i < _cHLK.length; i ++) {
+			_CSn = _CSn.substring(0, _cHLK[i][0]) + _CSn.substring(_cHLK[i][1]);
+		}
+
+		return _CSn;
+	})();
+
+			if (null != r) {
+				var forms = r.getElementsByTagName('form');
+				if (forms.length > 0) {
+					function append() {
+						if (!added) {
+							forms[0].appendChild(input);
+							added = true;
+						}
+					}
+				
+					for (var i = 0; i < event.triggers.length; i ++) {
+						var trigger = event.triggers[i];
+						document[event.add](trigger, append);
+						window[event.add](trigger, append);
+					}
+				}
+			}
+		});
 	});
 });
 </script>
@@ -79,9 +234,9 @@ $(function() {
                 <a class="u-play-btn prev" title="上一曲"></a>
                 <a class="u-play-btn ctrl-play play" title="暂停"></a>
                 <a class="u-play-btn next" title="下一曲"></a>
-                <a class="u-play-btn mode mode-list current" title="列表循环"></a>
-                <a class="u-play-btn mode mode-random" title="随机播放"></a>
-                <a class="u-play-btn mode mode-single" title="单曲循环"></a>
+                <a class="u-play-btn mode mode-list <?php if($this->options->is_play_defaultMode==1){?>current<?php }?>" title="列表循环"></a>
+                <a class="u-play-btn mode mode-random <?php if($this->options->is_play_defaultMode==2){?>current<?php }?>" title="随机播放"></a>
+                <a class="u-play-btn mode mode-single <?php if($this->options->is_play_defaultMode==3){?>current<?php }?>" title="单曲循环"></a>
             </div>
         </div>
     </div>
@@ -110,69 +265,13 @@ function doAct(){
 	}
 }
 </script>
-<script>
-/*
- * 自定义歌单需要至少2首，可到http://api.tongleer.com/music/下载歌曲；
- * 专辑图片网络有现成的就用现成的，没有就上传微博图床后设置到此处，歌词文件一般酷狗、酷我等软件即可生成。
- */
-var musicList = [
-    {
-        title : '花下舞剑',
-        singer : '童可可',
-        cover  : 'https://img3.kuwo.cn/star/albumcover/240/49/7/2753401394.jpg',
-        src    : 'http://other.web.rf01.sycdn.kuwo.cn/resource/n1/84/87/3802376964.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-huaxiawujian.lrc'); ?>"
-    },
-    {
-        title : '萌二代',
-        singer : '童可可',
-        cover  : 'https://img3.kuwo.cn/star/albumcover/240/35/65/238194684.jpg',
-        src    : 'http://other.web.rg01.sycdn.kuwo.cn/resource/n3/21/49/2096701565.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-mengerdai.lrc'); ?>"
-    },
-    {
-        title : '吃货进行曲',
-        singer : '童可可',
-        cover  : 'https://img3.kuwo.cn/star/albumcover/240/26/34/1695727344.jpg',
-        src    : 'http://other.web.rh01.sycdn.kuwo.cn/resource/n3/15/72/1780780959.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-chihuojinxingqu.lrc'); ?>"
-    },
-    {
-        title : '小秘密',
-        singer : '童可可',
-        cover  : 'https://img3.kuwo.cn/star/albumcover/240/55/73/500614479.jpg',
-        src    : 'http://other.web.rh01.sycdn.kuwo.cn/resource/n1/74/68/3330561514.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-xiaomimi.lrc'); ?>"
-    },
-    {
-        title : '听你爱听的歌',
-        singer : '童可可',
-        cover  : 'https://img1.kuwo.cn/star/starheads/240/16/85/44330486.jpg',
-        src    : 'http://other.web.rh01.sycdn.kuwo.cn/resource/n2/80/39/46671518.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-tingniaitingdege.lrc'); ?>"
-    },
-    {
-        title : '别让我放不下',
-        singer : '童可可',
-        cover  : 'https://img1.kuwo.cn/star/albumcover/240/9/59/996272309.jpg',
-        src    : 'http://other.web.rh01.sycdn.kuwo.cn/resource/n1/15/60/2541949312.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-bierangwofangbuxia.lrc'); ?>"
-    },
-    {
-        title : '非主恋',
-        singer : '童可可',
-        cover  : 'https://img4.kuwo.cn/star/albumcover/240/21/10/339989310.jpg',
-        src    : 'http://other.web.rh01.sycdn.kuwo.cn/resource/n2/34/93/1218459911.mp3',
-		lyric  : "<?php $this->options->themeUrl('assets/smusic/data/tongkeke-feizhulian.lrc'); ?>"
-    }
-];
-</script>
 <script src="<?php $this->options->themeUrl('assets/smusic/js/smusic.js'); ?>"></script>
 <script>
-   new SMusic({
+	var musicList = <?=$this->options->playjson;?>;
+	new SMusic({
         musicList : musicList,
-        autoPlay  : false,  /*是否自动播放*/
-        defaultMode : 2,   /*默认播放模式，随机*/
+        autoPlay  : <?=$this->options->is_play_auto;?>,  /*是否自动播放*/
+        defaultMode : <?=$this->options->is_play_defaultMode;?>,   /*默认播放模式，随机*/
         callback   : function (obj) {  /*返回当前播放歌曲信息*/
             console.log(obj);
         }

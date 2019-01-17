@@ -157,7 +157,7 @@ $this->need('header.php');
 						<?php $this->title(); ?>
 					</a>
 				</h3>
-				<small class="am-list-item-text"><?php $this->date('Y年m月d日 H:i'); ?> 来自 <?php $this->category(','); ?><?php $this->tags(',', true, ''); ?></small>
+				<small class="am-list-item-text"><?php $this->date('Y年m月d日 H:i'); ?> 来自 <?php $this->category(','); ?>&nbsp;&nbsp;<?php $this->tags(',', true, ''); ?></small>
 				<div>
 					<small>
 						<?php $this->excerpt(140, '...'); ?>
