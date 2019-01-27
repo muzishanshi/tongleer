@@ -35,7 +35,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <script type="text/javascript" language="javascript">
 $(function() {
 	$(document).pjax('a[target!=_blank]', '#content', {fragment:'#content', timeout:6000});
-	$(document).on('submit', 'form', function (event) {
+	$(document).on('submit', 'form[target!=_blank]', function (event) {
 		$.pjax.submit(event, '#content', {fragment:'#content', timeout:6000});
 	});
 	$(document).on('pjax:send', function() {
