@@ -59,6 +59,19 @@ ul, ol, dl {list-style-position: outside;}
 /* font family */
 .alt-font {font-family: "Roboto",sans-serif !important;}
 .main-font {font-family: 'Roboto', sans-serif !important;}
+table {
+	border: 1px solid #ddd;
+	width: 100%;
+}
+
+table th,table td {
+	padding: 5px 10px;
+	border: 1px solid #eee;
+}
+
+table th {
+	background: #f3f3f3;
+}
 /*评论开始*/
 #comments {
     padding: 10px;
