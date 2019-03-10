@@ -28,7 +28,7 @@
 # 官方演示
 http://joke.tongleer.com
 
-优秀使用者可联系作者QQ:2293338477有机会加入站长大家庭，一起为了世界和平而奋斗。
+1元入群：http://joke.tongleer.com/328.html
 
 # 使用问题
  - 如果遇到bug或者使用问题，欢迎给我来email：diamond@tongleer.com
