@@ -41,6 +41,10 @@ http://joke.tongleer.com
  - 灵感来源自<a href="https://blog.20d.win/" target="_blank">薄荷小屋</a>站长的创意，但不支持自适应，所以自己独立实现了一套自适应的微博typecho主题。
 
 # 版本记录
+2019-03-22 V1.0.10：
+
+	修复了因cdn.bootcss.com中JS静态资源不可访问导致的js失效的问题。
+
 2019-01-17 V1.0.9：
 
 	1、上次更新因误操作导致function.php上传错了，现已还原；

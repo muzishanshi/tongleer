@@ -4,7 +4,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 function themeConfig($form) {
 	 $db = Typecho_Db::get();
 	//版本检查
-	$version=file_get_contents('https://www.tongleer.com/api/interface/tongleer.php?action=update&version=9');
+	$version=file_get_contents('https://www.tongleer.com/api/interface/tongleer.php?action=update&version=10');
 	echo '<small>感谢使用 WeiboForTypecho 主题，版本检查：'.$version.'</small>';
 	
 	$is_pjax = new Typecho_Widget_Helper_Form_Element_Radio('is_pjax', array(
