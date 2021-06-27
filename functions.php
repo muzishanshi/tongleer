@@ -103,13 +103,13 @@ function themeConfig($form) {
 	$othernav = new Typecho_Widget_Helper_Form_Element_Textarea('othernav', array("value"), $othernavvalue, _t('顶部导航链接'), _t('此处可以随意添加链接到导航栏中，name=链接名，icon=图标（http://amazeui.org/css/icon），link=链接地址。'));
 	$form->addInput($othernav);
 	
-	$favicon = new Typecho_Widget_Helper_Form_Element_Text('favicon', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg', _t('自定义favicon图标'), _t('在这里填入自定义favicon图标url'));
+	$favicon = new Typecho_Widget_Helper_Form_Element_Text('favicon', array('value'), 'https://wx3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg', _t('自定义favicon图标'), _t('在这里填入自定义favicon图标url'));
     $form->addInput($favicon);
 	
 	$pagebg = new Typecho_Widget_Helper_Form_Element_Text('pagebg', array('value'), '', _t('网页背景图片'), _t('在这里填入网页背景图片url'));
     $form->addInput($pagebg);
 	
-	$headBg = new Typecho_Widget_Helper_Form_Element_Text('headBg', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg', _t('资料卡背景图片'), _t('在这里填入资料卡背景图片url'));
+	$headBg = new Typecho_Widget_Helper_Form_Element_Text('headBg', array('value'), 'https://wx3.sinaimg.cn/large/ecabade5ly1fxqhgnclydj21hc0u0wn1.jpg', _t('资料卡背景图片'), _t('在这里填入资料卡背景图片url'));
     $form->addInput($headBg);
 	
 	$headImgUrl = new Typecho_Widget_Helper_Form_Element_Text('headImgUrl', array('value'), 'https://cambrian-images.cdn.bcebos.com/39ceafd81d6813a014e747db4aa6f0eb_1524963877208.jpeg', _t('头像地址'), _t('在这里填入头像的URL地址，它会显示在你的头部资料卡和每条微博前'));
@@ -124,7 +124,7 @@ function themeConfig($form) {
 	), 'girl', _t('性别'), _t('显示在昵称右侧'));
 	$form->addInput($sex->addRule('enum', _t(''), array('boy', 'girl')));
 	
-	$follow_qrcode = new Typecho_Widget_Helper_Form_Element_Text('follow_qrcode', array('value'), 'https://ws3.sinaimg.cn/large/ecabade5ly1fxqhkxs6qbj203w03wt8m.jpg', _t('关注二维码'), _t('在这里填入头部资料卡关注的二维码图片地址'));
+	$follow_qrcode = new Typecho_Widget_Helper_Form_Element_Text('follow_qrcode', array('value'), 'https://wx3.sinaimg.cn/large/ecabade5ly1fxqhkxs6qbj203w03wt8m.jpg', _t('关注二维码'), _t('在这里填入头部资料卡关注的二维码图片地址'));
     $form->addInput($follow_qrcode);
 	
 	$home_name = new Typecho_Widget_Helper_Form_Element_Text('home_name', array('value'), '主页', _t('主页名称'), _t('在这里填入头部资料卡关注右侧按钮的名称，如：主页'));
@@ -163,19 +163,19 @@ function themeConfig($form) {
 	$friendlinkvalue='
 		[{
 			"name":"同乐儿",
-			"link":"http://www.tongleer.com",
+			"link":"https://www.tongleer.com",
 			"target":"_blank",
 			"rel":"nofollow friend",
 			"detail":"共同分享快乐",
-			"icon":"2293338477",
+			"icon":"229***8477",
 			"order":"1"
 		},{
 			"name":"同乐儿",
-			"link":"http://www.tongleer.com",
+			"link":"https://www.tongleer.com",
 			"target":"_blank",
 			"rel":"nofollow friend",
 			"detail":"共同分享快乐",
-			"icon":"https://ws3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg",
+			"icon":"https://wx3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg",
 			"order":"2"
 		}]
 	';
