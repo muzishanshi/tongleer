@@ -162,19 +162,19 @@ function themeConfig($form) {
 	
 	$friendlinkvalue='
 		[{
-			"name":"同乐儿",
-			"link":"https://www.tongleer.com",
+			"name":"百度",
+			"link":"https://www.baidu.com",
 			"target":"_blank",
 			"rel":"nofollow friend",
-			"detail":"共同分享快乐",
+			"detail":"百度一下，你就知道",
 			"icon":"229***8477",
 			"order":"1"
 		},{
-			"name":"同乐儿",
-			"link":"https://www.tongleer.com",
+			"name":"",
+			"link":"https://www.baidu.com",
 			"target":"_blank",
 			"rel":"nofollow friend",
-			"detail":"共同分享快乐",
+			"detail":"百度一下，你就知道",
 			"icon":"https://wx3.sinaimg.cn/large/ecabade5ly1fxqhk08iedj200s00s744.jpg",
 			"order":"2"
 		}]
